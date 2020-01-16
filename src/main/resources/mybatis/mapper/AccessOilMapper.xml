@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plr.vehicle.dao.IAccessOilDao">
+
+    <!--撤销权限组所有油卡查看权限-->
+    <delete id="revokeOilPermission">
+        DELETE FROM system_access_oil
+        WHERE authority_id = #{authorityId}
+    </delete>
+
+    <!--插入AccessOil-->
+    <insert id="insertAccessOil">
+        INSERT INTO system_access_oil
+        (access_oil_id, authority_id, oil_id, opt_user)
+        VALUES (
+        #{accessOil.accessOilId},
+        #{accessOil.authority.authorityId},
+        #{accessOil.oil.oilId},
+        #{accessOil.optUser}
+        )
+    </insert>
+
+</mapper>

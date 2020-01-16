@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plr.vehicle.dao.IOilDao">
+
+    <resultMap id="oilResultMap" type="com.plr.vehicle.pojo.OilPojo">
+        <id column="oil_id" property="oilId" jdbcType="INTEGER"/>
+        <result column="oil_code" property="oilCode" jdbcType="VARCHAR"/>
+        <result column="oil_manufacturer" property="oilManufacturer" jdbcType="VARCHAR"/>
+        <result column="oil_balance" property="oilBalance" jdbcType="DOUBLE"/>
+        <result column="opt_user" property="optUser" jdbcType="INTEGER"/>
+        <result column="opt_time" property="optTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!-- 获取权限内油卡个数 -->
+    <select id="getAccessOilCount" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT bo.oil_id)
+        FROM base_oil bo LEFT JOIN system_access_oil sao on bo.oil_id = sao.oil_id
+        WHERE 1 = 1
+        <if test="authorityIds != null and authorityIds.size() > 0">
+            AND sao.authority_id IN
+            <foreach collection="authorityIds" item="authorityIds" index="index" open="(" separator="," close=")">
+                #{authorityIds}
+            </foreach>
+        </if>
+        <if test="oil.oilId != null and oil.oilId > 0">
+            AND bo.oil_id = #{oil.oilId}
+        </if>
+        <if test="oil.oilCode != null and oil.oilCode != ''">
+            AND bo.oil_code = #{oil.oilCode}
+        </if>
+        <if test="oil.oilManufacturer != null and oil.oilManufacturer != ''">
+            AND bo.oil_manufacturer LIKE CONCAT('%',CONCAT(#{oil.oilManufacturer},'%'))
+        </if>
+    </select>
+    <!-- 查询油卡数据 -->
+    <select id="getAccessOil" resultMap="oilResultMap">
+        SELECT DISTINCT bo.oil_id,
+        bo.oil_code,
+        bo.oil_manufacturer,
+        bo.oil_balance,
+        bo.opt_user,
+        bo.opt_time
+        FROM base_oil bo LEFT JOIN system_access_oil sao on bo.oil_id = sao.oil_id
+        WHERE 1 = 1
+        <if test="authorityIds != null and authorityIds.size() > 0">
+            AND sao.authority_id IN
+            <foreach collection="authorityIds" item="authorityIds" index="index" open="(" separator="," close=")">
+                #{authorityIds}
+            </foreach>
+        </if>
+        <if test="oil.oilId != null and oil.oilId > 0">
+            AND bo.oil_id = #{oil.oilId}
+        </if>
+        <if test="oil.oilCode != null and oil.oilCode != ''">
+            AND bo.oil_code = #{oil.oilCode}
+        </if>
+        <if test="oil.oilManufacturer != null and oil.oilManufacturer != ''">
+            AND bo.oil_manufacturer LIKE CONCAT('%',CONCAT(#{oil.oilManufacturer},'%'))
+        </if>
+        <if test="oil.rowIndex != null and oil.rowIndex >=0
+        and oil.rowCount != null and oil.rowCount>0">
+            LIMIT #{oil.rowIndex},#{oil.rowCount}
+        </if>
+    </select>
+
+    <!-- 删除油卡 -->
+    <delete id="deleteOil" parameterType="java.util.List">
+        DELETE FROM base_oil
+        <where>
+            <choose>
+                <when test="list != null and list.size()>0">
+                    oil_id IN
+                    <foreach collection="list" item="item" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+                <otherwise>
+                    oil_id IS NULL
+                </otherwise>
+            </choose>
+        </where>
+    </delete>
+
+    <!-- 是否存在此油卡（更新时） -->
+    <select id="existUpdateOil" resultType="java.lang.Integer">
+        SELECT COUNT(0)
+          FROM base_oil
+         WHERE oil_id != #{oilId}
+           AND oil_code = #{oilCode}
+    </select>
+
+    <!-- 更新油卡数据 -->
+    <update id="updateOil">
+        UPDATE base_oil
+        SET oil_code = #{oil.oilCode}
+            ,oil_manufacturer = #{oil.oilManufacturer}
+            ,oil_balance = #{oil.oilBalance}
+            ,opt_user = #{oil.optUser}
+            ,opt_time = #{oil.optTime}
+        WHERE oil_id =  #{oil.oilId}
+    </update>
+
+    <!-- 新增油卡 -->
+    <insert id="insertOil">
+        INSERT INTO base_oil(
+        oil_id, oil_code, oil_manufacturer, oil_balance, opt_user
+        ) VALUES (
+        #{oil.oilId},
+        #{oil.oilCode},
+        #{oil.oilManufacturer},
+        #{oil.oilBalance},
+        #{oil.optUser}
+        )
+    </insert>
+
+    <select id="getOilCodeByOilIds" parameterType="java.util.List" resultType="java.lang.String">
+        SELECT oil_code
+        FROM base_oil
+        <where>
+            <choose>
+                <when test="list != null and list.size()>0">
+                    oil_id IN
+                    <foreach collection="list" item="list" index="index" open="(" separator="," close=")">
+                        #{list}
+                    </foreach>
+                </when>
+                <otherwise>
+                    oil_id IS NULL
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+</mapper>

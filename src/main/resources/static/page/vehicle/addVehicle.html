@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>车辆添加--车辆管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=vehicle-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all"/>
+    <style type="text/css">
+        .layui-form-item .layui-inline {
+            width: 33.333%;
+            float: left;
+            margin-right: 0;
+        }
+
+        @media (max-width: 1240px) {
+            .layui-form-item .layui-inline {
+                width: 100%;
+                float: none;
+            }
+        }
+    </style>
+</head>
+<body class="childrenBody">
+<form class="layui-form" id="vehicleAdd" style="width:80%;">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">车辆编号</label>
+            <div class="layui-input-block">
+                <input type="text" id="vehicleCode" name="vehicleCode" class="layui-input vehicleCode"
+                       lay-verify="required"
+                       placeholder="请输入车辆编号">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">车辆名称</label>
+            <div class="layui-input-block">
+                <input type="text" id="vehicleName" name="vehicleName" class="layui-input vehicleName"
+                       lay-verify="required"
+                       placeholder="请输入车辆名称">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">所属厂商</label>
+            <div class="layui-input-block">
+                <select id="mfrId" name="mfrId" lay-filter="mfrId">
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">具体型号</label>
+            <div class="layui-input-block">
+                <input type="text" id="vehicleBrand" name="vehicleBrand" class="layui-input vehicleBrand"
+                       lay-verify="required"
+                       placeholder="请输入车辆具体型号">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">车辆类型</label>
+            <div class="layui-input-block">
+                <select id="vtId" name="vtId" lay-filter="vtId">
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">车辆状态</label>
+            <div class="layui-input-block">
+                <select id="isUsable" name="isUsable" lay-filter="isUsable">
+                    <option value="1">可用</option>
+                    <option value="0">不可用</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">租金/日</label>
+            <div class="layui-input-block">
+                <input type="text" id="vehiclePrice" name="vehiclePrice" class="layui-input vehiclePrice"
+                       placeholder="请输入车辆每日租金">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="addVehicle">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="addVehicle.js"></script>
+</body>
+</html>

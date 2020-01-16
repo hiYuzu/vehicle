@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plr.vehicle.dao.IVehicleTypeDao">
+
+    <resultMap id="vtResultMap" type="com.plr.vehicle.model.VehicleTypeModel">
+        <id column="vt_id" property="vtId" jdbcType="BIGINT"/>
+        <result column="vt_code" property="vtCode" jdbcType="VARCHAR"/>
+        <result column="vt_name" property="vtName" jdbcType="VARCHAR"/>
+        <result column="vt_type" property="vtType" jdbcType="BIGINT"/>
+        <result column="vt_type_name" property="parentTypeName" jdbcType="BIGINT"/>
+        <result column="opt_user_id" property="optUser" jdbcType="INTEGER" javaType="java.lang.String"/>
+        <result column="opt_user_name" property="optUserName" jdbcType="VARCHAR"/>
+        <result column="opt_time" property="optTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap id="typeIdAndTypeNameMap" type="java.util.Map">
+        <id column="vt_id" property="vtId" jdbcType="BIGINT" javaType="java.lang.String"/>
+        <result column="vt_name" property="vtName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="vtResultMap1" type="com.plr.vehicle.pojo.VehicleTypePojo">
+        <id column="vt_id" property="vtId" jdbcType="BIGINT"/>
+        <result column="vt_code" property="vtCode" jdbcType="VARCHAR"/>
+        <result column="vt_name" property="vtName" jdbcType="VARCHAR"/>
+        <result column="vt_type" property="vtType" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <select id="getVehicleTypeCount" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT vt_id) FROM util_vehicle_type t_vt
+        WHERE
+        1=1
+        <if test="typeCode != null and typeCode != ''">
+            AND t_vt.vt_code LIKE CONCAT('%',CONCAT(#{typeCode},'%'))
+        </if>
+        <if test="typeName != null and typeName != ''">
+            AND t_vt.vt_name LIKE CONCAT('%',CONCAT(#{typeName},'%'))
+        </if>
+    </select>
+
+    <select id="getTypeIdAndTypeName" resultMap="typeIdAndTypeNameMap">
+        SELECT DISTINCT
+        vt_id,
+        vt_name
+        FROM util_vehicle_type
+    </select>
+
+    <select id="getNextVehicleType" resultMap="vtResultMap">
+        SELECT DISTINCT
+            t_vt.vt_id,
+            t_vt.vt_code,
+            t_vt.vt_name,
+            t_vt.vt_type,
+            t_parent_vt.vt_name AS vt_type_name,
+            t_vt.opt_user AS opt_user_id,
+            t_user.user_name AS opt_user_name,
+            t_vt.opt_time
+        FROM
+            util_vehicle_type t_vt
+            LEFT JOIN system_users t_user ON t_vt.opt_user = t_user.user_id
+            LEFT JOIN util_vehicle_type t_parent_vt ON t_vt.vt_type = t_parent_vt.vt_id
+        WHERE
+            t_vt.vt_id=#{vehicleTypeId}
+    </select>
+
+    <select id="getVehicleTypeByCode" resultMap="vtResultMap">
+        SELECT DISTINCT
+            t_vt.vt_id,
+            t_vt.vt_code,
+            t_vt.vt_name,
+            t_vt.vt_type,
+            t_parent_vt.vt_name AS vt_type_name,
+            t_vt.opt_user AS opt_user_id,
+            t_user.user_name AS opt_user_name,
+            t_vt.opt_time
+        FROM
+            util_vehicle_type t_vt
+            LEFT JOIN system_users t_user ON t_vt.opt_user = t_user.user_id
+            LEFT JOIN util_vehicle_type t_parent_vt ON t_vt.vt_type = t_parent_vt.vt_id
+        WHERE
+            t_vt.vt_code=#{vtCode}
+    </select>
+
+    <select id="listVehicleType" resultMap="vtResultMap">
+        SELECT DISTINCT
+            t_vt.vt_id,
+            t_vt.vt_code,
+            t_vt.vt_name,
+            t_vt.vt_type,
+            t_parent_vt.vt_name AS vt_type_name,
+            t_vt.opt_user AS opt_user_id,
+            t_user.user_name AS opt_user_name,
+            t_vt.opt_time
+        FROM
+            util_vehicle_type t_vt
+            LEFT JOIN system_users t_user ON t_vt.opt_user = t_user.user_id
+            LEFT JOIN util_vehicle_type t_parent_vt ON t_vt.vt_type = t_parent_vt.vt_id
+        WHERE
+            1=1
+            <if test="typeCode != null and typeCode != ''">
+                AND t_vt.vt_code LIKE CONCAT('%',CONCAT(#{typeCode},'%'))
+            </if>
+            <if test="typeName != null and typeName != ''">
+                AND t_vt.vt_name LIKE CONCAT('%',CONCAT(#{typeName},'%'))
+            </if>
+        <if test="rowIndex != null and rowIndex >=0
+        and rowCount != null and rowCount>0">
+            LIMIT #{rowIndex},#{rowCount}
+        </if>
+    </select>
+
+    <insert id="insertVehicleType" parameterType="com.plr.vehicle.pojo.VehicleTypePojo">
+        INSERT INTO util_vehicle_type(
+            vt_id,
+            vt_code,
+            vt_name,
+            vt_type,
+            opt_user
+        ) values (
+            #{pojo.vtId},
+            #{pojo.vtCode},
+            #{pojo.vtName},
+            #{pojo.vtType},
+            #{pojo.optUser}
+        )
+    </insert>
+
+    <update id="updateVehicleType" parameterType="com.plr.vehicle.pojo.VehicleTypePojo">
+        UPDATE util_vehicle_type
+          set vt_code = #{pojo.vtCode},
+              vt_name = #{pojo.vtName},
+              vt_type = #{pojo.vtType},
+              opt_user = #{pojo.optUser},
+              opt_time = #{pojo.optTime}
+        where vt_id = #{pojo.vtId}
+    </update>
+
+    <delete id="deleteVehicleType" parameterType="com.plr.vehicle.pojo.VehicleTypePojo">
+        DELETE FROM util_vehicle_type where vt_id=#{vehicleTypeId}
+    </delete>
+
+</mapper>

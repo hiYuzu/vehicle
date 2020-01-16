@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plr.vehicle.dao.IAuthorityUserDao">
+
+    <!--撤销权限组所有设备查看权限-->
+    <delete id="revokeUserPermission">
+        DELETE FROM system_authority_user
+        WHERE 1 = 1
+        <if test="authorityId != null and authorityId > 0">
+            AND authority_id = #{authorityId}
+        </if>
+        <if test="userId != null and userId > 0">
+            AND user_id = #{userId}
+        </if>
+    </delete>
+
+    <!--插入AuthorityUser-->
+    <insert id="insertAuthorityUser">
+        INSERT INTO system_authority_user
+        (authority_user_id, authority_id, user_id, opt_user)
+        VALUES (
+        #{authorityUser.authorityUserId},
+        #{authorityUser.authority.authorityId},
+        #{authorityUser.user.userId},
+        #{authorityUser.optUser}
+        )
+    </insert>
+
+    <!--验证是否已存在-->
+    <select id="isExist" resultType="java.lang.Integer">
+        SELECT COUNT(0)
+        FROM system_authority_user
+        <where>
+            <choose>
+                <when test="authorityUser != null">
+                    authority_id = #{authorityUser.authority.authorityId} AND user_id = #{authorityUser.user.userId}
+                </when>
+                <otherwise>
+                    authority_user_id IS NULL
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+</mapper>

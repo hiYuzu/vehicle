@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plr.vehicle.dao.IAccessVehicleDao">
+
+    <!--撤销权限组所有车辆查看权限-->
+    <delete id="revokeVehiclePermission">
+        DELETE FROM system_access_vehicle
+        WHERE authority_id = #{authorityId}
+    </delete>
+
+    <!--插入AccessVehicle-->
+    <insert id="insertAccessVehicle">
+        INSERT INTO system_access_vehicle
+        (access_vehicle_id, authority_id, vehicle_id, opt_user)
+        VALUES (
+        #{accessVehicle.accessVehicleId},
+        #{accessVehicle.authority.authorityId},
+        #{accessVehicle.vehicle.vehicleId},
+        #{accessVehicle.optUser}
+        )
+    </insert>
+
+</mapper>

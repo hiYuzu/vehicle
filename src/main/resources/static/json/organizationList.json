@@ -1,0 +1,116 @@
+{
+  "code": 0,
+  "count": 100,
+  "msg": "",
+  "data": [{
+    "orgId": 1000001,
+    "orgName": "TCB",
+    "orgType": "国企",
+    "parentOrgId":0,
+    "parentOrgName": "无",
+    "orgAddress": "天津市",
+    "orgPath": "结构全路径名",
+    "orgTel": "123456789",
+    "orgFax": "12456",
+    "orgLiaison": "hahahaha"
+  },{
+    "orgId": 1000001,
+    "orgName": "TCB",
+    "orgType": "国企",
+    "parentOrgId":1,
+    "parentOrgName": "中环电子",
+    "orgAddress": "天津市",
+    "orgPath": "结构全路径名",
+    "orgTel": "123456789",
+    "orgFax": "12456",
+    "orgLiaison": "hahahaha"
+  },{
+    "orgId": 1000001,
+    "orgName": "TCB",
+    "orgType": "国企",
+    "parentOrgId":1,
+    "parentOrgName": "中环电子",
+    "orgAddress": "天津市",
+    "orgPath": "结构全路径名",
+    "orgTel": "123456789",
+    "orgFax": "12456",
+    "orgLiaison": "hahahaha"
+  },{
+    "orgId": 1000001,
+    "orgName": "TCB",
+    "orgType": "国企",
+    "parentOrgId":1,
+    "parentOrgName": "中环电子",
+    "orgAddress": "天津市",
+    "orgPath": "结构全路径名",
+    "orgTel": "123456789",
+    "orgFax": "12456",
+    "orgLiaison": "hahahaha"
+  },{
+    "orgId": 1000001,
+    "orgName": "TCB",
+    "orgType": "国企",
+    "parentOrgId":1,
+    "parentOrgName": "中环电子",
+    "orgAddress": "天津市",
+    "orgPath": "结构全路径名",
+    "orgTel": "123456789",
+    "orgFax": "12456",
+    "orgLiaison": "hahahaha"
+  },{
+    "orgId": 1000001,
+    "orgName": "TCB",
+    "orgType": "国企",
+    "parentOrgId":1,
+    "parentOrgName": "中环电子",
+    "orgAddress": "天津市",
+    "orgPath": "结构全路径名",
+    "orgTel": "123456789",
+    "orgFax": "12456",
+    "orgLiaison": "hahahaha"
+  },{
+    "orgId": 1000001,
+    "orgName": "TCB",
+    "orgType": "国企",
+    "parentOrgId":1,
+    "parentOrgName": "中环电子",
+    "orgAddress": "天津市",
+    "orgPath": "结构全路径名",
+    "orgTel": "123456789",
+    "orgFax": "12456",
+    "orgLiaison": "hahahaha"
+  },{
+    "orgId": 1000001,
+    "orgName": "TCB",
+    "orgType": "国企",
+    "parentOrgId":1,
+    "parentOrgName": "中环电子",
+    "orgAddress": "天津市",
+    "orgPath": "结构全路径名",
+    "orgTel": "123456789",
+    "orgFax": "12456",
+    "orgLiaison": "hahahaha"
+  },{
+    "orgId": 1000001,
+    "orgName": "TCB",
+    "orgType": "国企",
+    "parentOrgId":1,
+    "parentOrgName": "中环电子",
+    "orgAddress": "天津市",
+    "orgPath": "结构全路径名",
+    "orgTel": "123456789",
+    "orgFax": "12456",
+    "orgLiaison": "hahahaha"
+  },{
+    "orgId": 1000001,
+    "orgName": "TCB",
+    "orgType": "国企",
+    "parentOrgId":1,
+    "parentOrgName": "中环电子",
+    "orgAddress": "天津市",
+    "orgPath": "结构全路径名",
+    "orgTel": "123456789",
+    "orgFax": "12456",
+    "orgLiaison": "hahahaha"
+  }]
+}

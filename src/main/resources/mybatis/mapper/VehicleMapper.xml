@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plr.vehicle.dao.IVehicleDao">
+
+    <resultMap id="vehicleResultMap" type="com.plr.vehicle.pojo.VehiclePojo">
+        <id property="vehicleId" column="vehicle_id"/>
+        <result property="vehicleCode" column="vehicle_code"/>
+        <result property="vehicleName" column="vehicle_name"/>
+        <result property="vehicleBrand" column="vehicle_brand"/>
+        <result property="isUsable" column="is_usable"/>
+        <result property="vehiclePrice" column="vehicle_price"/>
+        <result property="optUser" column="opt_user"/>
+        <result property="optTime" column="opt_time"/>
+        <!-- 级联表 -->
+        <association property="manufacturer" javaType="com.plr.vehicle.pojo.ManufacturerPojo"
+                     resultMap="com.plr.vehicle.dao.IManufacturerDao.mfrPojoResultMap"></association>
+        <association property="vehicleType" javaType="com.plr.vehicle.pojo.VehicleTypePojo"
+                     resultMap="com.plr.vehicle.dao.IVehicleTypeDao.vtResultMap1"></association>
+    </resultMap>
+
+    <!-- 获取权限内车辆个数 -->
+    <select id="getAccessVehicleCount" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT bv.vehicle_id)
+        FROM base_vehicle bv LEFT JOIN system_access_vehicle sad on bv.vehicle_id = sad.vehicle_id
+        WHERE 1 = 1
+        <if test="authorityIds != null and authorityIds.size() > 0">
+            AND sad.authority_id IN
+            <foreach collection="authorityIds" item="authorityIds" index="index" open="(" separator="," close=")">
+                #{authorityIds}
+            </foreach>
+        </if>
+        <if test="vehicle.vehicleId != null and vehicle.vehicleId > 0">
+            AND bv.vehicle_id = #{vehicle.vehicleId}
+        </if>
+        <if test="vehicle.vehicleCode != null and vehicle.vehicleCode != ''">
+            AND bv.vehicle_code = #{vehicle.vehicleCode}
+        </if>
+        <if test="vehicle.vehicleName != null and vehicle.vehicleName != ''">
+            AND bv.vehicle_name LIKE CONCAT('%',CONCAT(#{vehicle.vehicleName},'%'))
+        </if>
+    </select>
+    <!-- 查询车辆信息 -->
+    <select id="getAccessVehicle" resultMap="vehicleResultMap">
+        SELECT DISTINCT bv.vehicle_id,
+        bv.vehicle_code,
+        bv.vehicle_name,
+        bv.vehicle_brand,
+        bv.is_usable,
+        bv.vehicle_price,
+        bv.opt_user,
+        bv.opt_time,
+        bm.mfr_id,
+        bm.mfr_code,
+        bm.mfr_name,
+        bm.mfr_address,
+        bm.mfr_remark,
+        uvt.vt_id,
+        uvt.vt_code,
+        uvt.vt_name,
+        uvt.vt_type
+        FROM base_vehicle bv
+        LEFT JOIN system_access_vehicle sad on bv.vehicle_id = sad.vehicle_id
+        LEFT JOIN base_manufacturer bm on bv.vehicle_mfr = bm.mfr_id
+        LEFT JOIN util_vehicle_type uvt on bv.vehicle_type = uvt.vt_id
+        WHERE  1 = 1
+        <if test="authorityIds != null and authorityIds.size() > 0">
+            AND sad.authority_id IN
+            <foreach collection="authorityIds" item="authorityIds" index="index" open="(" separator="," close=")">
+                #{authorityIds}
+            </foreach>
+        </if>
+        <if test="vehicle.vehicleId != null and vehicle.vehicleId > 0">
+            AND bv.vehicle_id = #{vehicle.vehicleId}
+        </if>
+        <if test="vehicle.vehicleCode != null and vehicle.vehicleCode != ''">
+            AND bv.vehicle_code = #{vehicle.vehicleCode}
+        </if>
+        <if test="vehicle.vehicleName != null and vehicle.vehicleName != ''">
+            AND bv.vehicle_name LIKE CONCAT('%',CONCAT(#{vehicle.vehicleName},'%'))
+        </if>
+        <if test="vehicle.rowIndex != null and vehicle.rowIndex >=0
+        and vehicle.rowCount != null and vehicle.rowCount>0">
+            LIMIT #{vehicle.rowIndex},#{vehicle.rowCount}
+        </if>
+    </select>
+
+    <!-- 删除车辆 -->
+    <delete id="deleteVehicle" parameterType="java.util.List">
+        DELETE FROM base_vehicle
+        <where>
+            <choose>
+                <when test="list != null and list.size()>0">
+                    vehicle_id IN
+                    <foreach collection="list" item="list" index="index" open="(" separator="," close=")">
+                        (#{list})
+                    </foreach>
+                </when>
+                <otherwise>
+                    vehicle_id IS NULL
+                </otherwise>
+            </choose>
+        </where>
+    </delete>
+
+    <!-- 是否存在此车辆（更新时） -->
+    <select id="existUpdateVehicle" resultType="java.lang.Integer">
+        SELECT COUNT(0)
+          FROM base_vehicle
+         WHERE vehicle_id != #{vehicleId}
+           AND vehicle_code = #{vehicleCode}
+    </select>
+
+    <!-- 更新车辆数据 -->
+    <update id="updateVehicle">
+        UPDATE base_vehicle
+        SET vehicle_code = #{vehicle.vehicleCode}
+            ,vehicle_name = #{vehicle.vehicleName}
+            ,vehicle_brand = #{vehicle.vehicleBrand}
+            ,vehicle_type = #{vehicle.vehicleType.vtId}
+            ,vehicle_mfr = #{vehicle.manufacturer.mfrId}
+            ,is_usable = #{vehicle.isUsable}
+            ,vehicle_price = #{vehicle.vehiclePrice}
+            ,opt_user = #{vehicle.optUser}
+            ,opt_time = #{vehicle.optTime}
+        WHERE vehicle_id =  #{vehicle.vehicleId}
+    </update>
+
+    <!-- 新增车辆 -->
+    <insert id="insertVehicle">
+        INSERT INTO base_vehicle(
+        vehicle_id, vehicle_code, vehicle_brand, vehicle_name, vehicle_type, vehicle_mfr, is_usable, vehicle_price, opt_user
+        ) VALUES (
+        #{vehicle.vehicleId},
+        #{vehicle.vehicleCode},
+        #{vehicle.vehicleBrand},
+        #{vehicle.vehicleName},
+        #{vehicle.vehicleType.vtId},
+        #{vehicle.manufacturer.mfrId},
+        #{vehicle.isUsable},
+        #{vehicle.vehiclePrice},
+        #{vehicle.optUser}
+        )
+    </insert>
+
+</mapper>

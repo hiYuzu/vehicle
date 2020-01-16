@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plr.vehicle.dao.IAuthorityDetailDao" >
+
+    <!-- 查询权限页数据 -->
+    <select id="getPageIdList" parameterType="java.util.List" resultType="java.lang.Integer">
+        SELECT DISTINCT
+        control_id
+        FROM system_authority_detail
+        WHERE deal_type = 1
+        <if test="authorityIds != null and authorityIds.size() > 0">
+            AND authority_id IN
+            <foreach collection="authorityIds" item="authorityIds" index="index" open="(" separator="," close=")">
+                #{authorityIds}
+            </foreach>
+        </if>
+    </select>
+    
+    <!--撤销权限组所有页面查看权限-->
+    <update id="revokePagePermission">
+        UPDATE system_authority_detail
+        SET deal_type = 2
+        WHERE authority_id = #{authorityId}
+    </update>
+
+    <!--查询权限页数量-->
+    <select id="getAuthorityDetailCount" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT sad.authority_detail_id)
+        FROM system_authority_detail sad
+        WHERE 1 = 1
+        <if test="authorityDetail.authority.authorityId != null and authorityDetail.authority.authorityId > 0">
+            AND sad.authority_id = #{authorityDetail.authority.authorityId}
+        </if>
+        <if test="authorityDetail.controlId != null and authorityDetail.controlId > 0">
+            AND sad.control_id = #{authorityDetail.controlId}
+        </if>
+    </select>
+
+    <!--更新AuthorityDetail-->
+    <update id="updateAuthorityDetail">
+        UPDATE system_authority_detail
+        SET deal_type = #{authorityDetail.dealType},
+            check_status = #{authorityDetail.checkStatus},
+            opt_user = #{authorityDetail.optUser}
+        WHERE authority_id = #{authorityDetail.authority.authorityId}
+        AND control_id = #{authorityDetail.controlId}
+    </update>
+
+    <!--插入AuthorityDetail-->
+    <insert id="insertAuthorityDetail">
+        INSERT INTO system_authority_detail
+        (authority_detail_id, authority_id, control_id, check_status, opt_user)
+        VALUES (
+        #{authorityDetail.authorityDetailId},
+        #{authorityDetail.authority.authorityId},
+        #{authorityDetail.controlId},
+        #{authorityDetail.checkStatus},
+        #{authorityDetail.optUser}
+        )
+    </insert>
+
+</mapper>

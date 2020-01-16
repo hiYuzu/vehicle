@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plr.vehicle.dao.IUserDao">
+
+    <resultMap id="userResultMap" type="com.plr.vehicle.pojo.UserPojo">
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="user_code" property="userCode" jdbcType="VARCHAR"/>
+        <result column="user_password" property="userPassword" jdbcType="VARCHAR"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="user_tel" property="userTel" jdbcType="VARCHAR"/>
+        <result column="user_email" property="userEmail" jdbcType="VARCHAR"/>
+        <result column="user_delete" property="userDelete" jdbcType="BOOLEAN"/>
+        <result column="user_Remark" property="userRemark" jdbcType="VARCHAR"/>
+        <result column="opt_user" property="optUser" jdbcType="INTEGER"/>
+        <result column="opt_time" property="optTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!-- 查询用户个数 -->
+    <select id="getUserCount" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT su.user_id)
+        FROM system_users su
+        WHERE 1 = 1
+            <if test="userPojo.userId != null and userPojo.userId > 0">
+                AND su.user_id = #{userPojo.userId}
+            </if>
+            <if test="userPojo.userCode != null and userPojo.userCode != ''">
+                AND su.user_code = #{userPojo.userCode}
+            </if>
+            <if test="userPojo.userPassword != null and userPojo.userPassword != ''">
+                AND su.user_password = #{userPojo.userPassword}
+            </if>
+            <if test="userPojo.userName != null and userPojo.userName != ''">
+                AND su.user_name LIKE CONCAT('%',CONCAT(#{userPojo.userName},'%'))
+            </if>
+            <if test="userPojo.userDelete != null">
+                AND su.user_delete = #{userPojo.userDelete}
+            </if>
+    </select>
+
+    <!-- 查询用户数据 -->
+    <select id="getUser" resultMap="userResultMap">
+        SELECT DISTINCT su.user_id,
+        su.user_code,
+        su.user_password,
+        su.user_name,
+        su.user_tel,
+        su.user_email,
+        su.user_delete,
+        su.user_remark,
+        su.opt_user,
+        su.opt_time
+        FROM system_users su
+        WHERE 1 = 1
+        <if test="userPojo.userId != null and userPojo.userId > 0">
+            AND su.user_id = #{userPojo.userId}
+        </if>
+        <if test="userPojo.userCode != null and userPojo.userCode != ''">
+            AND su.user_code = #{userPojo.userCode}
+        </if>
+        <if test="userPojo.userPassword != null and userPojo.userPassword != ''">
+            AND su.user_password = #{userPojo.userPassword}
+        </if>
+        <if test="userPojo.userName != null and userPojo.userName != ''">
+            AND su.user_name LIKE CONCAT('%',CONCAT(#{userPojo.userName},'%'))
+        </if>
+        <if test="userPojo.userDelete != null">
+            AND su.user_delete = #{userPojo.userDelete}
+        </if>
+        <if test="userPojo.rowIndex != null and userPojo.rowIndex >=0
+        and userPojo.rowCount != null and userPojo.rowCount>0">
+            LIMIT #{userPojo.rowIndex},#{userPojo.rowCount}
+        </if>
+    </select>
+
+    <!-- 通过权限组id查询用户数据 -->
+    <select id="getAccessUser" resultMap="userResultMap">
+        SELECT DISTINCT su.user_id,
+        su.user_code,
+        su.user_password,
+        su.user_name,
+        su.user_tel,
+        su.user_email,
+        su.user_delete,
+        su.user_remark,
+        su.opt_user,
+        su.opt_time
+        FROM system_users su LEFT JOIN system_authority_user sau on su.user_id = sau.user_id
+        WHERE 1 = 1
+        <if test="authorityId != null and authorityId > 0">
+            AND sau.authority_id = #{authorityId}
+        </if>
+        <if test="user.userId != null and user.userId > 0">
+            AND su.user_id = #{user.userId}
+        </if>
+        <if test="user.userCode != null and user.userCode != ''">
+            AND su.user_code = #{user.userCode}
+        </if>
+        <if test="user.userPassword != null and user.userPassword != ''">
+            AND su.user_password = #{user.userPassword}
+        </if>
+        <if test="user.userName != null and user.userName != ''">
+            AND su.user_name LIKE CONCAT('%',CONCAT(#{user.userName},'%'))
+        </if>
+        <if test="user.userDelete != null">
+            AND su.user_delete = #{user.userDelete}
+        </if>
+        <if test="user.rowIndex != null and user.rowIndex >=0
+        and user.rowCount != null and user.rowCount>0">
+            LIMIT #{user.rowIndex},#{user.rowCount}
+        </if>
+    </select>
+
+    <!-- 新增用户数据 -->
+    <insert id="insertUser">
+      INSERT INTO system_users(
+        user_id,
+        user_code,
+        user_password,
+        user_name,
+        user_tel,
+        user_email,
+        user_delete,
+        user_remark,
+        opt_user
+      )VALUES (
+        #{userPojo.userId},
+        #{userPojo.userCode},
+        #{userPojo.userPassword},
+        #{userPojo.userName},
+        #{userPojo.userTel},
+        #{userPojo.userEmail},
+        #{userPojo.userDelete},
+        #{userPojo.userRemark},
+        #{userPojo.optUser}
+      )
+    </insert>
+
+    <!-- 更新用户数据 -->
+    <update id="updateUser">
+        UPDATE system_users
+        SET opt_time = #{userPojo.optTime}
+            ,user_code = #{userPojo.userCode}
+            ,user_name = #{userPojo.userName}
+            ,user_tel = #{userPojo.userTel}
+            ,user_email = #{userPojo.userEmail}
+            ,user_delete = #{userPojo.userDelete}
+            ,user_remark = #{userPojo.userRemark}
+            ,opt_user = #{userPojo.optUser}
+            ,opt_time = #{userPojo.optTime}
+        WHERE user_id =  #{userPojo.userId}
+    </update>
+
+    <!-- 更新用户密码 -->
+    <update id="updateUserPassword">
+        UPDATE system_users
+           SET user_password = #{userPassword}
+         WHERE user_id = #{userId}
+    </update>
+
+    <!-- 删除用户数据 -->
+    <delete id="deleteUsers" parameterType="java.util.List">
+        DELETE FROM system_users
+        <where>
+            <choose>
+                <when test="idList != null and idList.size()>0">
+                    user_id IN
+                    <foreach collection="idList" item="item" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+                <otherwise>
+                    user_id IS NULL
+                </otherwise>
+            </choose>
+        </where>
+    </delete>
+
+    <!-- 存在此用户（更新时） -->
+    <select id="existUpdateUser" resultType="java.lang.Integer">
+        SELECT COUNT(0)
+          FROM system_users
+         WHERE user_id != #{userId}
+           AND user_code = #{userCode}
+    </select>
+
+    <!-- 通过userId获取userCode -->
+    <select id="getUserCodeById" resultType="java.lang.String">
+        SELECT user_code
+          FROM system_users
+         WHERE user_id = #{userId}
+         LIMIT 0,1
+    </select>
+
+    <!-- 通过userId查询userName -->
+    <select id="getUserNameById" resultType="java.lang.String">
+        SELECT  user_name
+        FROM system_users
+        WHERE user_id = #{userId}
+    </select>
+
+</mapper>

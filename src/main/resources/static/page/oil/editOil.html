@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>油卡修改--车辆管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all"/>
+    <style type="text/css">
+        .layui-form-item .layui-inline {
+            width: 33.333%;
+            float: left;
+            margin-right: 0;
+        }
+
+        @media (max-width: 1240px) {
+            .layui-form-item .layui-inline {
+                width: 100%;
+                float: none;
+            }
+        }
+    </style>
+</head>
+<body class="childrenBody">
+<form class="layui-form" id="thingEdit" name="thingEdit" style="width:80%;">
+    <div class="layui-form-item" hidden="hidden">
+        <label class="layui-form-label">油卡id</label>
+        <div class="layui-input-block">
+            <input type="text" id="oilId" name="oilId" class="layui-input oilId" lay-verify="required"
+                   placeholder="请输入油卡id">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">油卡编码</label>
+            <div class="layui-input-block">
+                <input type="text" id="oilCode" name="oilCode" class="layui-input oilCode" lay-verify="required"
+                       placeholder="请输入油卡编码">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">油卡厂商</label>
+            <div class="layui-input-block">
+                <input type="text" id="oilManufacturer" name="oilManufacturer" class="layui-input oilManufacturer"
+                       lay-verify="required"
+                       placeholder="请输入油卡厂商">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">余额</label>
+            <div class="layui-input-block">
+                <input type="text" id="oilBalance" name="oilBalance" class="layui-input oilBalance"
+                       lay-verify="required"
+                       placeholder="请输入油卡余额">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="editOil">立即提交</button>
+            <button id="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="editOil.js"></script>
+</body>
+</html>

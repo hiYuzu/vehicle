@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plr.vehicle.dao.IAuthorityDao">
+
+    <resultMap id="authorityResultMap" type="com.plr.vehicle.pojo.AuthorityPojo">
+        <id column="authority_id" property="authorityId" jdbcType="BIGINT"/>
+        <result column="authority_code" property="authorityCode" jdbcType="VARCHAR"/>
+        <result column="authority_name" property="authorityName" jdbcType="VARCHAR"/>
+        <result column="authority_remark" property="authorityRemark" jdbcType="VARCHAR"/>
+        <result column="opt_user" property="optUser" jdbcType="BIGINT"/>
+        <result column="opt_time" property="optTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!-- 通过userId查询权限组信息 -->
+    <select id="getAuthorityByUserId" resultMap="authorityResultMap">
+        SELECT DISTINCT sa.authority_id,
+        sa.authority_code,
+        sa.authority_name,
+        sa.authority_remark,
+        sa.opt_user,
+        sa.opt_time
+        FROM system_authority sa
+        LEFT JOIN system_authority_user sau ON sa.authority_id = sau.authority_id
+        <where>
+            <if test="userId != null and userId > 0">
+                sau.user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <!-- 获取权限组个数 -->
+    <select id="getAuthorityCount" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT sa.authority_id)
+        FROM system_authority sa
+        WHERE 1 = 1
+        <if test="authority.authorityId != null and authority.authorityId > 0">
+            AND sa.authority_id = #{authority.authorityId}
+        </if>
+        <if test="authority.authorityCode != null and authority.authorityCode != ''">
+            AND sa.authority_code = #{authority.authorityCode}
+        </if>
+        <if test="authority.authorityName != null and authority.authorityName != ''">
+            AND sa.authority_name LIKE CONCAT('%',CONCAT(#{authority.authorityName},'%'))
+        </if>
+    </select>
+
+    <!-- 查询权限组数据 -->
+    <select id="getAuthority" resultMap="authorityResultMap">
+        SELECT DISTINCT sa.authority_id,
+        sa.authority_code,
+        sa.authority_name,
+        sa.authority_remark,
+        sa.opt_user,
+        sa.opt_time
+        FROM system_authority sa
+        WHERE 1 = 1
+        <if test="authority.authorityId != null and authority.authorityId > 0">
+            AND sa.authority_id = #{authority.authorityId}
+        </if>
+        <if test="authority.authorityCode != null and authority.authorityCode != ''">
+            AND sa.authority_code = #{authority.authorityCode}
+        </if>
+        <if test="authority.authorityName != null and authority.authorityName != ''">
+            AND sa.authority_name LIKE CONCAT('%',CONCAT(#{authority.authorityName},'%'))
+        </if>
+        <if test="authority.rowIndex != null and authority.rowIndex >=0
+        and authority.rowCount != null and authority.rowCount>0">
+            LIMIT #{authority.rowIndex},#{authority.rowCount}
+        </if>
+    </select>
+
+    <!-- 删除权限组 -->
+    <delete id="deleteAuthority" parameterType="java.util.List">
+        DELETE FROM system_authority
+        <where>
+            <choose>
+                <when test="list != null and list.size()>0">
+                    authority_id IN
+                    <foreach collection="list" item="list" index="index" open="(" separator="," close=")">
+                        #{list}
+                    </foreach>
+                </when>
+                <otherwise>
+                    authority_id IS NULL
+                </otherwise>
+            </choose>
+        </where>
+    </delete>
+
+    <!-- 是否存在此权限组（更新时） -->
+    <select id="existUpdateAuthority" resultType="java.lang.Integer">
+        SELECT COUNT(0)
+          FROM system_authority
+         WHERE authority_id != #{authorityId}
+           AND authority_code = #{authorityCode}
+    </select>
+
+    <!-- 更新权限组数据 -->
+    <update id="updateAuthority">
+        UPDATE system_authority
+        SET authority_code = #{authority.authorityCode}
+            ,authority_name = #{authority.authorityName}
+            ,authority_remark = #{authority.authorityRemark}
+            ,opt_user = #{authority.optUser}
+            ,opt_time = #{authority.optTime}
+        WHERE authority_id =  #{authority.authorityId}
+    </update>
+
+    <!-- 新增权限组 -->
+    <insert id="insertAuthority">
+        INSERT INTO system_authority(
+        authority_id, authority_code, authority_name, authority_remark, opt_user
+        ) VALUES (
+        #{authority.authorityId},
+        #{authority.authorityCode},
+        #{authority.authorityName},
+        #{authority.authorityRemark},
+        #{authority.optUser}
+        )
+    </insert>
+
+    <!--查询是否具有指定页面的查看权限-->
+    <select id="isAuthorityPage" resultType="java.lang.String">
+        SELECT DISTINCT (sp.page_url)
+        FROM system_page sp
+        LEFT JOIN system_authority_detail sad ON sp.page_id = sad.control_id
+        WHERE deal_type = 1
+        AND sad.authority_id = #{authorityId}
+        AND sad.control_id = #{pageId}
+    </select>
+
+    <!--getAuthorityIdsByUserId-->
+    <select id="getAuthorityIdsByUserId" resultType="java.lang.String">
+        SELECT authority_id
+        FROM system_authority_user
+        WHERE user_id = #{userId}
+    </select>
+
+    <!--getAuthorityNameById-->
+    <select id="getAuthorityNameById" parameterType="java.util.List" resultType="java.lang.String">
+        SELECT authority_name
+        FROM system_authority
+        <where>
+            <choose>
+                <when test="authorityIds != null and authorityIds.size()>0">
+                    authority_id IN
+                    <foreach collection="authorityIds" item="authorityIds" index="index" open="(" separator="," close=")">
+                        #{authorityIds}
+                    </foreach>
+                </when>
+                <otherwise>
+                    authority_id IS NULL
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+
+</mapper>

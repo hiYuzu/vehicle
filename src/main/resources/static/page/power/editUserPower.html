@@ -1,0 +1,50 @@
+<!--
+用户权限配置页
+@author hiYuzu
+@version V1.0
+@date
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户权限--尘负荷管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+</head>
+<body class="childrenBody">
+<form class="layui-form" id="userEdit" name="userEdit" style="width:100%;">
+    <div class="layui-form-item" hidden="hidden">
+        <label class="layui-form-label">当前用户权限组id</label>
+        <div class="layui-input-block">
+            <input type="text" id="authorityId" name="authorityId" class="layui-input authorityId" lay-verify="required">
+        </div>
+    </div>
+    <blockquote class="layui-elem-quote user_search">
+        <div class="layui-inline">
+            <div class="layui-input-inline">
+                <input type="text" value="" id="searchName" placeholder="请输入用户名称" class="layui-input search_input">
+            </div>
+            <a class="layui-btn search_btn">查询</a>
+        </div>
+    </blockquote>
+    <div class="layui-form">
+        <table id="userListTable" lay-filter="userListFilter">
+        </table>
+    </div>
+    <div class="layui-form-item" style="text-align: center">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="editUserPower">立即提交</button>
+            <button id="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="editUserPower.js"></script>
+</body>
+</html>

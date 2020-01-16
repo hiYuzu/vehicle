@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plr.vehicle.dao.IPageDao">
+
+    <resultMap id="pageResultMap" type="com.plr.vehicle.pojo.PagePojo">
+        <id column="page_id" property="pageId" jdbcType="BIGINT"/>
+        <result column="page_name_en" property="pageNameEn" jdbcType="VARCHAR"/>
+        <result column="page_name_cn" property="pageNameCn" jdbcType="VARCHAR"/>
+        <result column="page_remark" property="pageRemark" jdbcType="VARCHAR"/>
+        <result column="page_url" property="pageUrl" jdbcType="VARCHAR"/>
+        <result column="page_icon" property="pageIcon" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 获取所有页面信息 -->
+    <select id="getAllPage" resultMap="pageResultMap">
+        SELECT DISTINCT
+            sp.page_id,
+            sp.page_name_en,
+            sp.page_name_cn,
+            sp.page_remark,
+            sp.page_url,
+            sp.page_icon
+        FROM system_page sp
+    </select>
+    <!-- 通过pageIdList获取页面信息 -->
+    <select id="getPage" resultMap="pageResultMap">
+        SELECT DISTINCT
+            sp.page_id,
+            sp.page_name_en,
+            sp.page_name_cn,
+            sp.page_remark,
+            sp.page_url,
+            sp.page_icon
+        FROM system_page sp
+        WHERE 1=1
+        <if test="pageIdList != null">
+            AND page_id IN
+            <foreach collection="pageIdList" item="pageIdList" index="index" open="(" separator="," close=")">
+                (#{pageIdList})
+            </foreach>
+        </if>
+    </select>
+    
+</mapper>

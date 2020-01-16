@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plr.vehicle.dao.IManufacturerDao">
+
+    <resultMap id="mfrPojoResultMap" type="com.plr.vehicle.pojo.ManufacturerPojo">
+        <id column="mfr_id" property="mfrId"/>
+        <result column="mfr_code" property="mfrCode"/>
+        <result column="mfr_name" property="mfrName"/>
+        <result column="mfr_address" property="mfrAddress"/>
+        <result column="mfr_remark" property="mfrRemark"/>
+        <result column="opt_user_id" property="optUser"/>
+        <result column="opt_user_name" property="optUserName"/>
+        <result column="opt_time" property="optTime"/>
+    </resultMap>
+
+    <resultMap id="mfrIdAndMfrNameMap" type="java.util.Map">
+        <result column="mfr_id" property="mfrId" jdbcType="BIGINT" javaType="java.lang.String"/>
+        <result column="mfr_name" property="mfrName"/>
+    </resultMap>
+
+    <!-- 查询公告个数 -->
+    <select id="getManufacturerCount" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT t_mfr.mfr_id) FROM base_manufacturer t_mfr
+        WHERE
+        1=1
+        <if test="mfrCode != null and mfrCode != null">
+            AND t_mfr.mfr_code LIKE CONCAT('%',CONCAT(#{mfrCode},'%'))
+        </if>
+        <if test="mfrName != null and mfrName != ''">
+            AND t_mfr.mfr_name LIKE CONCAT('%',CONCAT(#{mfrName},'%'))
+        </if>
+    </select>
+
+
+    <select id="listMfrIdAndMfrName" resultMap="mfrIdAndMfrNameMap">
+        SELECT DISTINCT
+        mfr_id,
+        mfr_name
+        FROM base_manufacturer
+    </select>
+
+    <select id="getManufacturerByCode" resultMap="mfrPojoResultMap">
+        SELECT DISTINCT
+        t_mfr.mfr_id,
+        t_mfr.mfr_code,
+        t_mfr.mfr_name,
+        t_mfr.mfr_address,
+        t_mfr.mfr_remark,
+        t_mfr.opt_user AS opt_user_id,
+        t_user.user_name AS opt_user_name,
+        t_mfr.opt_time
+        FROM base_manufacturer t_mfr
+        LEFT JOIN system_users t_user ON t_mfr.opt_user = t_user.user_id
+        WHERE t_mfr.mfr_code=#{mfrCode}
+    </select>
+
+    <!-- 查询公告 -->
+    <select id="listManufacturer" resultMap="mfrPojoResultMap">
+        SELECT DISTINCT
+        t_mfr.mfr_id,
+        t_mfr.mfr_code,
+        t_mfr.mfr_name,
+        t_mfr.mfr_address,
+        t_mfr.mfr_remark,
+        t_mfr.opt_user AS opt_user_id,
+        t_user.user_name AS opt_user_name,
+        t_mfr.opt_time
+        FROM
+        base_manufacturer t_mfr
+        LEFT JOIN system_users t_user ON t_mfr.opt_user = t_user.user_id
+        WHERE
+            1=1
+        <if test="mfrCode != null and mfrCode != null">
+                AND t_mfr.mfr_code LIKE CONCAT('%',CONCAT(#{mfrCode},'%'))
+            </if>
+            <if test="mfrName != null and mfrName != ''">
+                AND t_mfr.mfr_name LIKE CONCAT('%',CONCAT(#{mfrName},'%'))
+            </if>
+        <if test="rowIndex != null and rowIndex >=0
+        and rowCount != null and rowCount>0">
+            LIMIT #{rowIndex},#{rowCount}
+        </if>
+    </select>
+
+    <!-- 新增公告 -->
+    <insert id="insertManufacturer" parameterType="com.plr.vehicle.pojo.ManufacturerPojo">
+        INSERT INTO base_manufacturer(
+            mfr_id,
+            mfr_name,
+            mfr_code,
+            mfr_address,
+            mfr_remark,
+            opt_user
+        )VALUES (
+            #{manufacturerPojo.mfrId},
+            #{manufacturerPojo.mfrName},
+            #{manufacturerPojo.mfrCode},
+            #{manufacturerPojo.mfrAddress},
+            #{manufacturerPojo.mfrRemark},
+            #{manufacturerPojo.optUser}
+        )
+    </insert>
+
+    <!-- 更新公告 -->
+    <update id="updateManufacturer" parameterType="com.plr.vehicle.pojo.ManufacturerPojo">
+        UPDATE base_manufacturer
+          SET mfr_code = #{manufacturerPojo.mfrCode},
+              mfr_name =  #{manufacturerPojo.mfrName},
+              mfr_address = #{manufacturerPojo.mfrAddress},
+              mfr_remark =  #{manufacturerPojo.mfrRemark},
+              opt_user = #{manufacturerPojo.optUser},
+              opt_time = #{manufacturerPojo.optTime}
+        WHERE mfr_id =  #{manufacturerPojo.mfrId}
+    </update>
+
+    <delete id="deleteManufacturerById">
+        DELETE FROM base_manufacturer WHERE mfr_id = #{mfrId}
+    </delete>
+
+    <!-- 删除公告 -->
+    <delete id="deleteManufacturerByIdList">
+        DELETE FROM base_manufacturer
+        <where>
+            <choose>
+                <when test="idList != null and idList.size()>0">
+                    mfr_id IN
+                    <foreach collection="idList" item="item" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+                <otherwise>
+                    mfr_id IS NULL
+                </otherwise>
+            </choose>
+        </where>
+    </delete>
+
+</mapper>
