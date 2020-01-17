@@ -9,16 +9,17 @@ layui.config({
     startSearchParam();
 
     function startSearchParam() {
-        var searchValue = $("#driverNameValue").val();
-        searchParam(searchValue);
+        var searchNameValue = $("#driverNameValue").val();
+        var searchUsableValue = $("#isUsable").val();
+        searchParam(searchNameValue, searchUsableValue);
     }
 
-    function searchParam(searchValue) {
+    function searchParam(searchNameValue, searchUsableValue) {
         table.render({
             elem: '#listTable'
             , url: '../../DriverController/getDriver' //------数据查询接口------
             , method: 'post'
-            , where: {"driverName": searchValue} //传参*/
+            , where: {"driverName": searchNameValue, "isUsable": searchUsableValue} //传参*/
             , page: true //开启分页
             , cols: [[
                 {field: 'driverName', title: '驾驶员姓名', minWidth: '120', sort: true}

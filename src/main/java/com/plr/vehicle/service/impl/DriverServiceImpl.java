@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author plr
@@ -38,11 +37,7 @@ public class DriverServiceImpl implements IDriverService {
 
     @Override
     public int deleteDriverById(long driverId) {
-        List<DriverModel> nextDriverList = driverDao.getNextDriverById(driverId);
-        if (nextDriverList == null || nextDriverList.size() == 0) {
-            return driverDao.deleteDriverById(driverId);
-        }
-        return -1;
+        return driverDao.deleteDriverById(driverId);
     }
 
     @Override

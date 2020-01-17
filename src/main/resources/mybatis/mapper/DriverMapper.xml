@@ -4,27 +4,23 @@
 
     <resultMap id="driverResultMap" type="com.plr.vehicle.model.DriverModel">
         <id column="driver_id" property="driverId" jdbcType="BIGINT"/>
-        <result column="driver_name" property="driverName" jdbcType="VARCHAR"/>
-        <result column="driver_address" property="driverAddress" jdbcType="VARCHAR"/>
-        <result column="driver_contact" property="driverContact" jdbcType="VARCHAR"/>
-        <result column="parent_driver_id" property="parentDriverId" jdbcType="INTEGER" javaType="java.lang.String"/>
-        <result column="parent_driver_name" property="parentDriverName" jdbcType="VARCHAR"/>
+        <result column="driver_name" property="driverName" jdbcType="BIGINT"/>
+        <result column="driver_phone" property="driverPhone" jdbcType="VARCHAR"/>
+        <result column="driver_deadline" property="driverDeadline" jdbcType="TIMESTAMP"/>
+        <result column="driver_remark" property="driverRemark" jdbcType="VARCHAR"/>
+        <result column="is_usable" property="isUsable" jdbcType="BOOLEAN"/>
         <result column="opt_user_id" property="optUser" jdbcType="INTEGER" javaType="java.lang.String"/>
         <result column="opt_user_name" property="optUserName" jdbcType="VARCHAR"/>
         <result column="opt_time" property="optTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <resultMap id="driverIdAndDriverNameMap" type="java.util.Map">
-        <id column="driver_id" property="driverId" jdbcType="BIGINT" javaType="java.lang.String"/>
-        <result column="driver_name" property="driverName" jdbcType="VARCHAR"/>
-    </resultMap>
-
     <resultMap id="driverResultMap1" type="com.plr.vehicle.pojo.DriverPojo">
         <id column="driver_id" property="driverId" jdbcType="BIGINT"/>
         <result column="driver_name" property="driverName" jdbcType="VARCHAR"/>
-        <result column="driver_address" property="driverAddress" jdbcType="VARCHAR"/>
-        <result column="driver_contact" property="driverContact" jdbcType="VARCHAR"/>
-        <result column="parent_driver_id" property="parentDriverId" jdbcType="INTEGER"/>
+        <result column="driver_phone" property="driverPhone" jdbcType="BIGINT"/>
+        <result column="driver_deadline" property="driverDeadline" jdbcType="TIMESTAMP"/>
+        <result column="driver_remark" property="driverRemark" jdbcType="VARCHAR"/>
+        <result column="is_usable" property="isUsable" jdbcType="BOOLEAN"/>
     </resultMap>
 
     <select id="getDriverCount" resultType="java.lang.Integer">
@@ -33,53 +29,26 @@
 
     <select id="getDriverCountByDriverName" resultType="java.lang.Integer">
         SELECT COUNT(DISTINCT driver_id) FROM base_driver
-        WHERE
-        1=1
-        <if test="driverName != null and driverName != ''">
-            AND driver_name LIKE CONCAT('%',CONCAT(#{driverName},'%'))
-        </if>
-    </select>
-
-    <select id="getNextDriverById" resultMap="driverResultMap">
-        SELECT DISTINCT
-            t_driver.driver_id,
-            t_driver.driver_name,
-            t_driver.parent_driver_id AS parent_driver_id,
-            t_driver.driver_address,
-            t_driver.driver_contact,
-            t_parent_driver.driver_name AS parent_driver_name,
-            t_driver.opt_user AS opt_user_id,
-            t_user.user_name AS opt_user_name,
-            t_driver.opt_time
-        FROM
-            base_driver t_driver
-            LEFT JOIN system_users t_user ON t_driver.opt_user = t_user.user_id
-            LEFT JOIN base_driver t_parent_driver ON t_driver.parent_driver_id = t_parent_driver.driver_id
-        WHERE t_driver.parent_driver_id=#{driverId}
+        WHERE driver_name LIKE CONCAT('%',CONCAT(#{driverName},'%'))
     </select>
 
     <select id="listDriver" resultMap="driverResultMap">
         SELECT DISTINCT
         t_driver.driver_id,
         t_driver.driver_name,
-        t_driver.parent_driver_id AS parent_driver_id,
-        t_driver.driver_address,
-        t_driver.driver_contact,
-        t_parent_driver.driver_name AS parent_driver_name,
+        t_driver.driver_phone,
+        t_driver.driver_deadline,
+        t_driver.driver_remark,
+        t_driver.is_usable,
         t_driver.opt_user AS opt_user_id,
         t_user.user_name AS opt_user_name,
         t_driver.opt_time
         FROM
         base_driver t_driver
         LEFT JOIN system_users t_user ON t_driver.opt_user = t_user.user_id
-        LEFT JOIN base_driver t_parent_driver ON t_driver.parent_driver_id = t_parent_driver.driver_id
-        WHERE
-        1=1
+        WHERE t_driver.is_usable = #{isUsable}
         <if test="driverName != null and driverName != ''">
             AND t_driver.driver_name LIKE CONCAT('%',CONCAT(#{driverName},'%'))
-        </if>
-        <if test="isUsable != null">
-            AND t_driver.is_usable = #{isUsable}
         </if>
         <if test="rowIndex != null and rowIndex >=0 and rowCount != null and rowCount>0">
             LIMIT #{rowIndex},#{rowCount}
@@ -89,17 +58,19 @@
     <insert id="insertDriver" parameterType="com.plr.vehicle.pojo.DriverPojo">
         INSERT INTO base_driver(
             driver_id,
-            parent_driver_id,
             driver_name,
-            driver_address,
-            driver_contact,
+            driver_phone,
+            driver_deadline,
+            driver_remark,
+            is_usable,
             opt_user
         )VALUES (
             #{pojo.driverId},
-            #{pojo.parentDriverId},
             #{pojo.driverName},
-            #{pojo.driverAddress},
-            #{pojo.driverContact},
+            #{pojo.driverPhone},
+            #{pojo.driverDeadline},
+            #{pojo.driverRemark},
+            #{pojo.isUsable},
             #{pojo.optUser}
         )
     </insert>
@@ -107,10 +78,11 @@
     <!-- 更新公告 -->
     <update id="updateDriver" parameterType="com.plr.vehicle.pojo.DriverPojo">
         UPDATE base_driver
-          SET parent_driver_id = #{pojo.parentDriverId},
-              driver_name =  #{pojo.driverName},
-              driver_address = #{pojo.driverAddress},
-              driver_contact =  #{pojo.driverContact},
+          SET driver_name =  #{pojo.driverName},
+              driver_phone = #{pojo.driverPhone},
+              driver_deadline =  #{pojo.driverDeadline},
+              driver_remark =  #{pojo.driverRemark},
+              is_usable =  #{pojo.isUsable},
               opt_user = #{pojo.optUser},
               opt_time = #{pojo.optTime}
         WHERE driver_id =  #{pojo.driverId}

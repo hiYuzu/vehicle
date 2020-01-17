@@ -44,7 +44,7 @@ public class MainController {
         List<String> authorityIds = authorityService.getAuthorityIdsByUserId(Long.valueOf(loginUser.getUserId()));
         countModel.setUser(userService.getUserCount(new UserPojo()));
         countModel.setAuthority(authorityService.getAuthorityCount(new AuthorityPojo()));
-        countModel.setDriver(driverService.getEnableDriverCount());
+        countModel.setDriver(driverService.getDriverCount());
         countModel.setVehicle(deviceService.getAccessVehicleCount(new VehiclePojo(), authorityIds));
         countModel.setOil(thingService.getAccessOilCount(new OilPojo(), authorityIds));
         countModel.setMfr(manufacturerService.getManufacturerCount());

@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
-import java.util.Map;
-
 /**
  * @author plr
  * @version V1.0
@@ -49,10 +46,8 @@ public class DriverController extends BaseController {
         int result = driverService.deleteDriverById(Long.valueOf(driverId));
         if (result > 0) {
             return ResultModel.getInstance(ResultModel.SUCCESS, "删除成功！");
-        } else if (result == -1) {
-            return ResultModel.getInstance(ResultModel.ERROR, "删除失败，检查是否存在上级机构！");
         }
-        return ResultModel.getInstance(ResultModel.ERROR, "删除失败，检查用户是否登录！");
+        return ResultModel.getInstance(ResultModel.ERROR, "删除失败！");
     }
 
     @RequestMapping("/addDriver")
@@ -63,7 +58,7 @@ public class DriverController extends BaseController {
         if (result > 0) {
             return ResultModel.getInstance(ResultModel.SUCCESS, "添加成功！");
         } else if (result == -1) {
-            return ResultModel.getInstance(ResultModel.ERROR, "新增驾驶员存在！");
+            return ResultModel.getInstance(ResultModel.ERROR, "驾驶员存在！");
         }
         return ResultModel.getInstance(ResultModel.ERROR, "新增驾驶员失败！");
     }
@@ -74,9 +69,9 @@ public class DriverController extends BaseController {
         initOperator(pojo);
         int result = driverService.updateDriver(pojo);
         if (result > 0) {
-            return ResultModel.getInstance(ResultModel.SUCCESS, "更新机构成功！");
+            return ResultModel.getInstance(ResultModel.SUCCESS, "更新驾驶员成功！");
         } else if (result == -1) {
-            return ResultModel.getInstance(ResultModel.ERROR, "更新机构编码重复！");
+            return ResultModel.getInstance(ResultModel.ERROR, "驾驶员重复！");
         }
         return ResultModel.getInstance(ResultModel.ERROR, "更新失败！");
     }

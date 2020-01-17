@@ -4,7 +4,6 @@ import com.plr.vehicle.model.DriverModel;
 import com.plr.vehicle.pojo.DriverPojo;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author plr
@@ -23,6 +22,7 @@ public interface IDriverService {
      * @param page
      * @param limit
      * @param driverName
+     * @param isUsable
      * @return
      */
     List<DriverModel> listDriver(int page, int limit, String driverName, boolean isUsable);
@@ -30,7 +30,7 @@ public interface IDriverService {
     /**
      * 通过ID删除驾驶员
      * @param driverId
-     * @return -1删除失败，存在上级驾驶员
+     * @return
      */
     int deleteDriverById(long driverId);
 
