@@ -65,7 +65,7 @@ public class VehicleTypeController extends BaseController {
         if (result > 0) {
             return ResultModel.getInstance(ResultModel.SUCCESS, "删除成功！");
         } else if (result == -1) {
-            return ResultModel.getInstance(ResultModel.ERROR, "删除失败，检查是否存在上级设备类型！");
+            return ResultModel.getInstance(ResultModel.ERROR, "删除失败，检查是否存在下级设备类型！");
         }
         return ResultModel.getInstance(ResultModel.ERROR, "删除失败，检查用户是否登录！");
     }

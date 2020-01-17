@@ -6,7 +6,7 @@
         <id column="driver_id" property="driverId" jdbcType="BIGINT"/>
         <result column="driver_name" property="driverName" jdbcType="BIGINT"/>
         <result column="driver_phone" property="driverPhone" jdbcType="VARCHAR"/>
-        <result column="driver_deadline" property="driverDeadline" jdbcType="TIMESTAMP"/>
+        <result column="driver_deadline" property="driverDeadline" jdbcType="VARCHAR"/>
         <result column="driver_remark" property="driverRemark" jdbcType="VARCHAR"/>
         <result column="is_usable" property="isUsable" jdbcType="BOOLEAN"/>
         <result column="opt_user_id" property="optUser" jdbcType="INTEGER" javaType="java.lang.String"/>
@@ -18,7 +18,7 @@
         <id column="driver_id" property="driverId" jdbcType="BIGINT"/>
         <result column="driver_name" property="driverName" jdbcType="VARCHAR"/>
         <result column="driver_phone" property="driverPhone" jdbcType="BIGINT"/>
-        <result column="driver_deadline" property="driverDeadline" jdbcType="TIMESTAMP"/>
+        <result column="driver_deadline" property="driverDeadline" jdbcType="VARCHAR"/>
         <result column="driver_remark" property="driverRemark" jdbcType="VARCHAR"/>
         <result column="is_usable" property="isUsable" jdbcType="BOOLEAN"/>
     </resultMap>

@@ -19,16 +19,15 @@ layui.config({
             elem: '#listTable'
             , url: '../../DriverController/getDriver' //------数据查询接口------
             , method: 'post'
-            , where: {"driverName": searchNameValue, "isUsable": searchUsableValue} //传参*/
+            , where: {driverName: searchNameValue, isUsable: searchUsableValue} //传参*/
             , page: true //开启分页
             , cols: [[
                 {field: 'driverName', title: '驾驶员姓名', minWidth: '120', sort: true}
                 , {field: 'driverPhone', title: '联系电话', minWidth: '120'}
                 , {field: 'driverDeadline', title: '驾照到期时间', minWidth: '180'}
                 , {field: 'driverRemark', title: '备注信息', minWidth: '180'}
-                , {
-                    field: 'isUsable', title: '是否可用', minWidth: '100', templet: function (d) {
-                        return d ? "正常" : "停用";
+                , {field: 'usable', title: '是否可用', minWidth: '100', templet: function (d) {
+                        return d.usable ? "可用" : "停用";
                     }
                 }
                 , {field: 'optUserName', title: '操作员', minWidth: '120'}

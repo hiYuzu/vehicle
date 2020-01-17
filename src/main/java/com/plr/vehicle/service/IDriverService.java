@@ -25,7 +25,7 @@ public interface IDriverService {
      * @param isUsable
      * @return
      */
-    List<DriverModel> listDriver(int page, int limit, String driverName, boolean isUsable);
+    List<DriverModel> listDriver(int page, int limit, String driverName, int isUsable);
 
     /**
      * 通过ID删除驾驶员
@@ -47,11 +47,4 @@ public interface IDriverService {
      * @return
      */
     int updateDriver(DriverPojo pojo);
-
-    /**
-     * 根据驾驶员名模糊查新时，获取驾驶员数量
-     * @param driverName
-     * @return
-     */
-    int getDriverCountByDriverName(String driverName);
 }

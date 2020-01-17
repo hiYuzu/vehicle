@@ -121,27 +121,21 @@ public class OilController {
     @RequestMapping("/deleteOil")
     @ResponseBody
     public ResultModel deleteOil(@RequestParam(value = "list[]") List<String> list) {
-        ResultModel resultModel = new ResultModel();
         if (list != null && list.size() > 0) {
             try {
                 int intResult = oilService.deleteOil(list);
                 if (intResult > 0) {
-                    resultModel.setResult(true);
-                    resultModel.setDetail("油卡删除成功！");
+                    return ResultModel.getInstance(ResultModel.SUCCESS, "油卡删除成功");
                 } else {
-                    resultModel.setResult(false);
-                    resultModel.setDetail("油卡删除失败！未找到相应油卡，请刷新后重试。");
+                    return ResultModel.getInstance(ResultModel.ERROR, "油卡删除失败，未找到相应油卡，请刷新后重试");
                 }
             } catch (Exception e) {
-                resultModel.setResult(false);
-                resultModel.setDetail("油卡删除失败！");
                 logger.error(LOG + "：油卡删除失败，信息为：" + e.getMessage());
+                return ResultModel.getInstance(ResultModel.ERROR, "油卡删除失败");
             }
         } else {
-            resultModel.setResult(false);
-            resultModel.setDetail("油卡删除失败，错误原因：服务器未接收到删除数据！");
+            return ResultModel.getInstance(ResultModel.ERROR, "油卡删除失败，错误原因：服务器未接收到删除数据");
         }
-        return resultModel;
     }
 
     /**
@@ -154,68 +148,49 @@ public class OilController {
     @RequestMapping(value = "/updateOil", method = {RequestMethod.POST})
     @ResponseBody
     public ResultModel updateOil(OilModel oilModel, HttpSession httpSession) {
-        ResultModel resultModel = new ResultModel();
         if (oilModel != null) {
-            try {
-                if (oilService.existUpdateOil(oilModel.getOilId(), oilModel.getOilCode()) == 0) {
-                    OilPojo oil = convertOil(oilModel, httpSession);
-                    int intResult = oilService.updateOil(oil);
-                    if (intResult > 0) {
-                        resultModel.setResult(true);
-                        resultModel.setDetail("更新油卡成功！");
-                    } else {
-                        resultModel.setResult(false);
-                        resultModel.setDetail("更新油卡失败，信息未改变。");
-                    }
+            if (oilService.existUpdateOil(oilModel.getOilId(), oilModel.getOilCode()) == 0) {
+                OilPojo oil = convertOil(oilModel, httpSession);
+                int intResult = oilService.updateOil(oil);
+                if (intResult > 0) {
+                    return ResultModel.getInstance(ResultModel.SUCCESS, "更新油卡成功");
                 } else {
-                    resultModel.setResult(false);
-                    resultModel.setDetail("系统已存在此油卡编码，请更换！");
+                    return ResultModel.getInstance(ResultModel.ERROR, "更新油卡失败，信息未改变");
                 }
-            } catch (Exception e) {
-                resultModel.setResult(false);
-                resultModel.setDetail("油卡更新失败！");
-                logger.error(LOG + "：油卡更新失败，信息为：" + e.getMessage());
+            } else {
+                return ResultModel.getInstance(ResultModel.ERROR, "系统已存在此油卡编码，请更换");
             }
         } else {
-            resultModel.setResult(false);
-            resultModel.setDetail("没有可以操作的数据！");
+            return ResultModel.getInstance(ResultModel.ERROR, "没有可以操作的数据");
         }
-        return resultModel;
     }
 
-    @RequestMapping(value = "/insertOil")
+    /**
+     * 添加油卡
+     * @param oilModel
+     * @param httpSession
+     * @return
+     */
+    @RequestMapping(value = "/insertOil", method = {RequestMethod.POST})
     @ResponseBody
     public ResultModel insertOil(OilModel oilModel, HttpSession httpSession) {
-        ResultModel resultModel = new ResultModel();
         if (oilModel != null) {
             OilPojo oil = convertOil(oilModel, httpSession);
-            try {
-                String oilCode = oilModel.getOilCode();
-                String oilId = String.valueOf(idWorker.nextId());
-                if (oilService.existUpdateOil(oilId, oilCode) == 0) {
-                    oil.setOilId(Long.valueOf(oilId));
-                    int intResult = oilService.insertOil(oil);
-                    if (intResult > 0) {
-                        resultModel.setResult(true);
-                        resultModel.setDetail("油卡添加成功!");
-                    } else {
-                        resultModel.setResult(false);
-                        resultModel.setDetail("油卡添加失败！");
-                    }
+            String oilCode = oilModel.getOilCode();
+            String oilId = String.valueOf(idWorker.nextId());
+            if (oilService.existUpdateOil(oilId, oilCode) == 0) {
+                oil.setOilId(Long.valueOf(oilId));
+                if (oilService.insertOil(oil) > 0) {
+                    return ResultModel.getInstance(ResultModel.SUCCESS, "油卡添加成功");
                 } else {
-                    resultModel.setResult(false);
-                    resultModel.setDetail("系统已存在此油卡编码，请使用其他编码！");
+                    return ResultModel.getInstance(ResultModel.ERROR, "油卡添加失败");
                 }
-            } catch (Exception e) {
-                resultModel.setResult(false);
-                resultModel.setDetail("油卡添加失败！");
-                logger.error(LOG + "：油卡添加失败，信息为：" + e.getMessage());
+            } else {
+                return ResultModel.getInstance(ResultModel.ERROR, "系统已存在此油卡编码，请使用其他编码");
             }
         } else {
-            resultModel.setResult(false);
-            resultModel.setDetail("没有可以操作的数据！");
+            return ResultModel.getInstance(ResultModel.ERROR, "没有可以操作的数据");
         }
-        return resultModel;
     }
 
     private OilPojo convertOil(OilModel oilModel, HttpSession httpSession) {
@@ -227,7 +202,7 @@ public class OilController {
                 }
                 oil.setOilCode(oilModel.getOilCode());
                 oil.setOilManufacturer(oilModel.getOilManufacturer());
-                if (oilModel.getOilBalance() != null && !oilModel.getOilBalance().isEmpty()){
+                if (oilModel.getOilBalance() != null && !oilModel.getOilBalance().isEmpty()) {
                     oil.setOilBalance(Double.valueOf(oilModel.getOilBalance()));
                 }
                 UserModel loginUser = (UserModel) httpSession.getAttribute(httpSession.getId());

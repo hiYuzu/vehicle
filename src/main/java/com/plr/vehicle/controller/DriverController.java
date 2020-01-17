@@ -27,15 +27,10 @@ public class DriverController extends BaseController {
 
     @RequestMapping(value = "/getDriver", method = {RequestMethod.POST, RequestMethod.GET})
     @ResponseBody
-    public ResultListModel<DriverModel> getDriver(DriverModel driverModel) {
+    public ResultListModel<DriverModel> getDriver(@RequestParam("page") int page, @RequestParam("limit") int limit, @RequestParam("driverName") String driverName, @RequestParam("isUsable") int isUsable) {
         ResultListModel<DriverModel> result = ResultListModel.getInstance();
-        if(driverModel.getDriverName() == null || driverModel.getDriverName().isEmpty()) {
-            result.setCount(driverService.getDriverCount());
-        } else {
-            result.setCount(driverService.getDriverCountByDriverName(driverModel.getDriverName()));
-        }
-        result.addDataList(driverService.listDriver(driverModel.getPage(), driverModel.getLimit(), driverModel.getDriverName(), driverModel.isUsable()));
-
+        result.addDataList(driverService.listDriver(page, limit, driverName, isUsable));
+        result.setCount(result.getData().size());
         return result;
     }
 
@@ -52,8 +47,9 @@ public class DriverController extends BaseController {
 
     @RequestMapping("/addDriver")
     @ResponseBody
-    public ResultModel insertDriver(DriverPojo pojo) {
+    public ResultModel insertDriver(DriverPojo pojo, @RequestParam("isUsable") int isUsable) {
         initOperator(pojo);
+        pojo.setUsable(isUsable);
         int result = driverService.insertDriver(pojo);
         if (result > 0) {
             return ResultModel.getInstance(ResultModel.SUCCESS, "添加成功！");
@@ -65,8 +61,9 @@ public class DriverController extends BaseController {
 
     @RequestMapping(value = "/updateDriver", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public ResultModel updateDriver(DriverPojo pojo) {
+    public ResultModel updateDriver(DriverPojo pojo, @RequestParam("isUsable") int isUsable) {
         initOperator(pojo);
+        pojo.setUsable(isUsable);
         int result = driverService.updateDriver(pojo);
         if (result > 0) {
             return ResultModel.getInstance(ResultModel.SUCCESS, "更新驾驶员成功！");

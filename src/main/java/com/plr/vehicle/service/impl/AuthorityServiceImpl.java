@@ -68,11 +68,14 @@ public class AuthorityServiceImpl implements IAuthorityService {
     public String getAuthorityNameById(List<String> authorityIds) {
         List<String> authorityNames = authorityDao.getAuthorityNameById(authorityIds);
         StringBuilder stringBuilder = new StringBuilder();
-        for (String temp : authorityNames) {
-            stringBuilder.append(temp);
-            stringBuilder.append("、");
+        if (authorityNames.size() > 0) {
+            for (String temp : authorityNames) {
+                stringBuilder.append(temp);
+                stringBuilder.append("、");
+            }
+            stringBuilder.deleteCharAt(stringBuilder.lastIndexOf("、"));
+            return stringBuilder.toString();
         }
-        stringBuilder.deleteCharAt(stringBuilder.lastIndexOf("、"));
-        return stringBuilder.toString();
+        return "";
     }
 }

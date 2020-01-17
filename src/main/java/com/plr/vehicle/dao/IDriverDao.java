@@ -17,12 +17,6 @@ public interface IDriverDao {
      */
     int getDriverCount();
     /**
-     * 根据驾驶员名模糊查新时，获取驾驶员数量
-     * @param driverName
-     * @return
-     */
-    int getDriverCountByDriverName(@Param("driverName") String driverName);
-    /**
      * 分页查新驾驶员
      * @param rowCount
      * @param rowIndex
@@ -30,7 +24,7 @@ public interface IDriverDao {
      * @param isUsable
      * @return
      */
-    List<DriverModel> listDriver(@Param("rowIndex") int rowIndex, @Param("rowCount") int rowCount, @Param("driverName") String driverName, @Param("isUsable") boolean isUsable);
+    List<DriverModel> listDriver(@Param("rowIndex") int rowIndex, @Param("rowCount") int rowCount, @Param("driverName") String driverName, @Param("isUsable") int isUsable);
     /**
      * 通过ID删除驾驶员
      * @param driverId

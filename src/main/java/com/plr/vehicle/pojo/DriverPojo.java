@@ -1,7 +1,5 @@
 package com.plr.vehicle.pojo;
 
-import java.sql.Timestamp;
-
 /**
  * @author plr
  * @version V1.0
@@ -11,9 +9,9 @@ public class DriverPojo extends BasePojo {
     private long driverId;
     private String driverName;
     private long driverPhone;
-    private Timestamp driverDeadline;
+    private String driverDeadline;
     private String driverRemark;
-    private boolean isUsable;
+    private int isUsable;
 
     public long getDriverId() {
         return driverId;
@@ -39,11 +37,11 @@ public class DriverPojo extends BasePojo {
         this.driverPhone = driverPhone;
     }
 
-    public Timestamp getDriverDeadline() {
+    public String getDriverDeadline() {
         return driverDeadline;
     }
 
-    public void setDriverDeadline(Timestamp driverDeadline) {
+    public void setDriverDeadline(String driverDeadline) {
         this.driverDeadline = driverDeadline;
     }
 
@@ -55,11 +53,11 @@ public class DriverPojo extends BasePojo {
         this.driverRemark = driverRemark;
     }
 
-    public boolean isUsable() {
+    public int isUsable() {
         return isUsable;
     }
 
-    public void setUsable(boolean usable) {
+    public void setUsable(int usable) {
         isUsable = usable;
     }
 

@@ -75,9 +75,10 @@ public class UserController {
      */
     @RequestMapping(value = "/getUser", method = {RequestMethod.POST, RequestMethod.GET})
     @ResponseBody
-    public ResultListModel<UserModel> getUser(UserModel userModel, HttpSession httpSession) {
+    public ResultListModel<UserModel> getUser(UserModel userModel, HttpSession httpSession, @RequestParam("userDelete") int userDelete) {
         List<UserModel> userModelList = new ArrayList<UserModel>();
         List<UserPojo> userList;
+        userModel.setUserDelete(userDelete == 1);
         UserPojo userPojo = convertUserPojo(userModel, true, httpSession);
         int count = userService.getUserCount(userPojo);
         if (count > 0) {
@@ -156,7 +157,7 @@ public class UserController {
      */
     @RequestMapping(value = "/insertUser", method = {RequestMethod.POST})
     public @ResponseBody
-    ResultModel insertUser(UserModel userModel, HttpSession httpSession) {
+    ResultModel insertUser(UserModel userModel, HttpSession httpSession, @RequestParam("userDelete") int userDelete) {
         ResultModel resultModel = new ResultModel();
         if (userModel != null) {
             try {
@@ -164,6 +165,7 @@ public class UserController {
                 userPojo.setUserCode(userModel.getUserCode());
                 if (userService.getUserCount(userPojo) == 0) {
                     userModel.setUserPassword(DefaultParam.PWD_DEFAULT);
+                    userModel.setUserDelete(userDelete == 1);
                     userPojo = convertUserPojo(userModel, true, httpSession);
                     userPojo.setUserId(idWorker.nextId());
                     int intResult = userService.insertUser(userPojo);
@@ -199,12 +201,12 @@ public class UserController {
      */
     @RequestMapping(value = "/updateUser", method = {RequestMethod.POST})
     public @ResponseBody
-    ResultModel updateUser(UserModel userModel, HttpSession httpSession) {
+    ResultModel updateUser(UserModel userModel, HttpSession httpSession, @RequestParam("userDelete") int userDelete) {
         ResultModel resultModel = new ResultModel();
         if (userModel != null) {
             try {
                 if (userService.existUpdateUser(userModel.getUserId(), userModel.getUserCode()) == 0) {
-                    userModel.setUserPassword(DefaultParam.PWD_DEFAULT);
+                    userModel.setUserDelete(userDelete == 1);
                     UserPojo userPojo = convertUserPojo(userModel, false, httpSession);
                     int intResult = userService.updateUser(userPojo);
                     if (intResult > 0) {

@@ -72,4 +72,5 @@ public class DriverModel extends BaseModel {
                 ", isUsable='" + isUsable + '\'' +
                 '}';
     }
+
 }

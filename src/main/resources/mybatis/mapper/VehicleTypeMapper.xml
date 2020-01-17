@@ -44,22 +44,14 @@
         FROM util_vehicle_type
     </select>
 
-    <select id="getNextVehicleType" resultMap="vtResultMap">
-        SELECT DISTINCT
-            t_vt.vt_id,
-            t_vt.vt_code,
-            t_vt.vt_name,
-            t_vt.vt_type,
-            t_parent_vt.vt_name AS vt_type_name,
-            t_vt.opt_user AS opt_user_id,
-            t_user.user_name AS opt_user_name,
-            t_vt.opt_time
+    <select id="getNextVehicleType" resultType="java.lang.Long">
+        SELECT
+            t_child_vt.vt_id
         FROM
             util_vehicle_type t_vt
-            LEFT JOIN system_users t_user ON t_vt.opt_user = t_user.user_id
-            LEFT JOIN util_vehicle_type t_parent_vt ON t_vt.vt_type = t_parent_vt.vt_id
+            LEFT JOIN util_vehicle_type t_child_vt ON t_vt.vt_id = t_child_vt.vt_type
         WHERE
-            t_vt.vt_id=#{vehicleTypeId}
+            t_vt.vt_id = #{vehicleTypeId}
     </select>
 
     <select id="getVehicleTypeByCode" resultMap="vtResultMap">
@@ -134,8 +126,8 @@
         where vt_id = #{pojo.vtId}
     </update>
 
-    <delete id="deleteVehicleType" parameterType="com.plr.vehicle.pojo.VehicleTypePojo">
-        DELETE FROM util_vehicle_type where vt_id=#{vehicleTypeId}
+    <delete id="deleteVehicleTypeById" parameterType="java.lang.Long">
+        DELETE FROM util_vehicle_type where vt_id = #{vehicleTypeId}
     </delete>
 
 </mapper>

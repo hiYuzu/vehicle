@@ -6,21 +6,19 @@ layui.config({
         layer = parent.layer === undefined ? layui.layer : parent.layer,
         $ = layui.jquery;
 
-    renderForm();
-    function renderForm(){
-        layui.use('laydate', function(){
+    window.renderForm = function () {
+        layui.use('laydate', function () {
             var laydate = layui.laydate;
             laydate.render({
                 elem: '#driverDeadline'
             });
         });
-        layui.use('form', function(){
+        layui.use('form', function () {
             var form = layui.form;
             form.render();
         });
         initFormData();
-    }
-
+    };
 
 
     form.on("submit(editSubmit)", function (data) {
@@ -44,7 +42,7 @@ layui.config({
                     //刷新父页面
                     parent.location.reload();
                 } else {
-                    top.layer.msg("更新失败,失败信息为:"+json.detail);
+                    top.layer.msg("更新失败,失败信息为:" + json.detail);
                 }
             }
         });
@@ -62,7 +60,7 @@ layui.config({
             $("#driverName").val(row.driverName);
             $("#driverPhone").val(row.driverPhone);
             $("#driverDeadline").val(row.driverDeadline);
-            var usableFlag = row.isUsable;
+            var usableFlag = row.usable;
             if (usableFlag) {
                 usableFlag = "1";
             } else {
@@ -77,5 +75,6 @@ layui.config({
 
 function showFormData(data) {
     row = data;
+    renderForm();
 }
 

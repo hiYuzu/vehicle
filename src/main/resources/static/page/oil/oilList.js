@@ -47,7 +47,7 @@ layui.config({
             return;
         }
         if (obj.event === 'del') {
-            layer.confirm('确认删除\'' + data.oilName + '\'吗', function (index) {
+            layer.confirm('确认删除编号为\'' + data.oilCode + '\'的油卡吗', function (index) {
                 var idArray = [];
                 idArray.push(data.oilId);
                 deleteOil(idArray);

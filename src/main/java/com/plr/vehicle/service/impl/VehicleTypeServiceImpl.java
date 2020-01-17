@@ -4,8 +4,10 @@ import com.plr.vehicle.dao.IVehicleTypeDao;
 import com.plr.vehicle.model.VehicleTypeModel;
 import com.plr.vehicle.pojo.VehicleTypePojo;
 import com.plr.vehicle.service.IVehicleTypeService;
+import com.plr.vehicle.util.IdWorkerUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.Map;
 public class VehicleTypeServiceImpl implements IVehicleTypeService {
     @Resource
     private IVehicleTypeDao vehicleTypeDao;
+    @Resource IdWorkerUtil idWorker;
 
     @Override
     public List<Map<String, String>> getTypeIdAndTypeName() {
@@ -41,8 +44,8 @@ public class VehicleTypeServiceImpl implements IVehicleTypeService {
 
     @Override
     public int deleteVehicleTypeById(long vehicleTypeId) {
-        List<VehicleTypeModel> nextType = vehicleTypeDao.getNextVehicleType(vehicleTypeId);
-        if(nextType == null || nextType.size() == 0) {
+        List<Long> nextType = vehicleTypeDao.getNextVehicleType(vehicleTypeId);
+        if(nextType.get(0) == null) {
             return vehicleTypeDao.deleteVehicleTypeById(vehicleTypeId);
         }
         return -1;
@@ -54,6 +57,7 @@ public class VehicleTypeServiceImpl implements IVehicleTypeService {
         if(result != null) {
             return -1;
         }
+        pojo.setVtId(idWorker.nextId());
         return vehicleTypeDao.insertVehicleType(pojo);
     }
 

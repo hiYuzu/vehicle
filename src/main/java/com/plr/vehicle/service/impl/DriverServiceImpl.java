@@ -30,7 +30,7 @@ public class DriverServiceImpl implements IDriverService {
     }
 
     @Override
-    public List<DriverModel> listDriver(int page, int limit, String driverName, boolean isUsable) {
+    public List<DriverModel> listDriver(int page, int limit, String driverName, int isUsable) {
         int rowIndex = (page - 1) * limit;
         return driverDao.listDriver(rowIndex, limit, driverName, isUsable);
     }
@@ -49,10 +49,5 @@ public class DriverServiceImpl implements IDriverService {
     @Override
     public int updateDriver(DriverPojo pojo) {
         return driverDao.updateDriver(pojo);
-    }
-
-    @Override
-    public int getDriverCountByDriverName(String driverName) {
-        return driverDao.getDriverCountByDriverName(driverName);
     }
 }

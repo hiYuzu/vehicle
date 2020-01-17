@@ -38,7 +38,7 @@ public interface IVehicleTypeService {
     /**
      * 根据id删除vehicleType
      * @param vehicleTypeId
-     * @return -1删除失败，存在父类型
+     * @return -1删除失败，存在子类型
      */
     int deleteVehicleTypeById(long vehicleTypeId);
 

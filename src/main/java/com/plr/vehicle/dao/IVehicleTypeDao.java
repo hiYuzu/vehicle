@@ -19,11 +19,11 @@ public interface IVehicleTypeDao {
 
     List<VehicleTypeModel> listVehicleType(@Param("rowIndex") int rowIndex, @Param("rowCount") int rowCount, @Param("typeCode") String typeCode, @Param("typeName") String typeName);
 
-    List<VehicleTypeModel> getNextVehicleType(@Param("vehicleTypeId") long vehicleTypeId);
+    List<Long> getNextVehicleType(@Param("vehicleTypeId") long vehicleTypeId);
 
     int deleteVehicleTypeById(@Param("vehicleTypeId") long vehicleTypeId);
 
-    VehicleTypeModel getVehicleTypeByCode(@Param("dtCode") String dtCode);
+    VehicleTypeModel getVehicleTypeByCode(@Param("vtCode") String vtCode);
 
     int insertVehicleType(@Param("pojo") VehicleTypePojo pojo);
 

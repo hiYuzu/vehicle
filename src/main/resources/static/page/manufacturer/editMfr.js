@@ -6,8 +6,6 @@ layui.config({
         layer = parent.layer === undefined ? layui.layer : parent.layer,
         $ = layui.jquery;
 
-    initFormData();
-
     form.on("submit(editSubmit)", function (data) {
         var dataPara = data.field;
         //弹出loading
@@ -29,7 +27,7 @@ layui.config({
                     //刷新父页面
                     parent.location.reload();
                 } else {
-                    top.layer.msg("更新失败,失败信息为:"+json.detail);
+                    top.layer.msg("更新失败,失败信息为:" + json.detail);
                 }
             }
         });
@@ -41,7 +39,7 @@ layui.config({
         initFormData();
     });
 
-    function initFormData() {
+    window.initFormData = function () {
         if (row != null && row != '') {
             $("#mfrId").val(row.mfrId);
             $("#mfrCode").val(row.mfrCode);
@@ -55,5 +53,6 @@ layui.config({
 
 function showFormData(data) {
     row = data;
+    initFormData();
 }
 

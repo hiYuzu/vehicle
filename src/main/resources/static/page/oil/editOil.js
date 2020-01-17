@@ -11,8 +11,6 @@ layui.config({
         layer = parent.layer === undefined ? layui.layer : parent.layer,
         $ = layui.jquery;
 
-    initFormData();
-
     form.on("submit(editOil)", function (data) {
         //弹出loading
         var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
@@ -33,7 +31,7 @@ layui.config({
                     //刷新父页面
                     parent.location.reload();
                 } else {
-                    top.layer.msg("油卡更新失败,失败信息为:"+json.detail);
+                    top.layer.msg("油卡更新失败,失败信息为:" + json.detail);
                 }
             }
         });
@@ -44,18 +42,19 @@ layui.config({
     $("#reset").click(function () {
         initFormData();
     });
-
-    function initFormData() {
-        if (row != null && row != '') {
+    window.initFormData = function () {
+        if (row != null && row !== undefined) {
+            console.log(row);
             $("#oilId").val(row.oilId);
             $("#oilCode").val(row.oilCode);
             $("#oilManufacturer").val(row.oilManufacturer);
             $("#oilBalance").val(row.oilBalance);
             form.render();
         }
-    }
+    };
 });
 
 function showFormData(data) {
     row = data;
+    initFormData();
 }
