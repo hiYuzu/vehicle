@@ -83,7 +83,15 @@
         </a>
     </div>
 </div>
-
+<div class="layui-carousel" id="carousel" style="margin-bottom: 10px">
+    <div carousel-item>
+        <div><p class="layui-bg-green demo-carousel">滚动条-1</p></div>
+        <div><p class="layui-bg-red demo-carousel">滚动条-2</p></div>
+        <div><p class="layui-bg-blue demo-carousel">滚动条-3</p></div>
+        <div><p class="layui-bg-orange demo-carousel">滚动条-4</p></div>
+        <div><p class="layui-bg-cyan demo-carousel">滚动条-5</p></div>
+    </div>
+</div>
 <div class="row">
     <div class="sysFullNotice col">
         <blockquote class="layui-elem-quote title">系统公告<i class="iconfont icon-new1"></i></blockquote>
@@ -98,6 +106,18 @@
         </table>
     </div>
 </div>
+<script>
+    layui.use('carousel', function(){
+        var carousel = layui.carousel;
+        //建造实例
+        carousel.render({
+            elem: '#test1'
+            ,width: '100%' //设置容器宽度
+            ,arrow: 'always' //始终显示箭头
+            //,anim: 'updown' //切换动画方式
+        });
+    });
+</script>
 
 <script type="text/javascript" src="layui/layui.js"></script>
 <script type="text/javascript" src="js/main.js"></script>

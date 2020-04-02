@@ -1,10 +1,18 @@
 layui.config({
     base: "js/"
-}).use(['form', 'element', 'layer', 'jquery'], function () {
+}).use(['form', 'element', 'layer', 'jquery', 'carousel'], function () {
     var form = layui.form,
+        carousel = layui.carousel,
         layer = parent.layer === undefined ? layui.layer : parent.layer,
         element = layui.element,
         $ = layui.jquery;
+        carousel.render({
+            elem: '#carousel'
+            ,width: '100%' //设置容器宽度
+            ,height: 200
+            ,arrow: 'always' //始终显示箭头
+            ,anim: 'fade'
+        });
 
     $(".panel a").on("click", function () {
         var thisDiv = $(this);

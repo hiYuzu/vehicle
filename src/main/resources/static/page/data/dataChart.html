@@ -1,0 +1,52 @@
+<!--
+@author plr
+@version V1.0
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>数据展示页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all"/>
+</head>
+<body>
+<blockquote class="layui-elem-quote">
+    <div class="layui-inline">
+        <div class="layui-input-inline">
+            <select id="roRecord" name="roRecord" style="min-height: 38px" class="layui-select">
+                <option value="0">维修记录</option>
+                <option value="1">加油记录</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select id="timeRange" name="timeRange" style="min-height: 38px" class="layui-select">
+                <option value="0">一周内</option>
+                <option value="1">一月内</option>
+                <option value="2">半年内</option>
+                <option value="3">一年内</option>
+                <option value="4">所有</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <input type="text" value="" id="vehicleCodeValue" placeholder="请输入车辆编号" class="layui-input">
+        </div>
+        <a class="layui-btn search_btn">查询</a>
+    </div>
+</blockquote>
+<div class="layui-card">
+    <div class="layui-card-header">标题</div>
+    <div class="layui-card-body">
+        <div id="chart1" style="width: 600px; height: 600px;"></div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../../dist/echarts.js"></script>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="dataChart.js"></script>
+</html>
