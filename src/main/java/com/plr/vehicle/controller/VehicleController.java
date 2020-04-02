@@ -1,9 +1,6 @@
 package com.plr.vehicle.controller;
 
-import com.plr.vehicle.model.VehicleModel;
-import com.plr.vehicle.model.ResultListModel;
-import com.plr.vehicle.model.ResultModel;
-import com.plr.vehicle.model.UserModel;
+import com.plr.vehicle.model.*;
 import com.plr.vehicle.pojo.VehiclePojo;
 import com.plr.vehicle.pojo.VehicleTypePojo;
 import com.plr.vehicle.pojo.ManufacturerPojo;
@@ -220,6 +217,20 @@ public class VehicleController {
             resultModel.setDetail("没有可以操作的数据！");
         }
         return resultModel;
+    }
+
+    @RequestMapping(value = "/getOilRecord")
+    @ResponseBody
+    public ResultListModel<OilRecordModel> getOilRecord(String timeRange, String vehicleCode){
+        ResultListModel<OilRecordModel> result = new ResultListModel<>();
+        return result;
+    }
+
+    @RequestMapping(value = "/getRepairRecord")
+    @ResponseBody
+    public ResultListModel<RepairRecordModel> getRepairRecord(String timeRange, String vehicleCode){
+        ResultListModel<RepairRecordModel> result = new ResultListModel<>();
+        return result;
     }
 
     private VehiclePojo convertVehicle(VehicleModel vehicleModel, HttpSession httpSession) {

@@ -13,12 +13,12 @@ layui.config({
     var chartData = null;
     initChart();
     $(".search_btn").click(function () {
-        searchData($("#roRecord option:selected").text(),$("#timeRange option:selected").text(), $("#vehicleCodeValue").val());
+        searchData($("#roRecord").val(), $("#timeRange").val(), $("#vehicleCodeValue").val());
     });
     function searchData(roRecord, timeRange, vehicleCode) {
-        var url = "";//维修记录
-        if (roRecord === 1){
-            url = "";//加油记录
+        var url = "../../VehicleController/getRepairRecord";
+        if (roRecord == 1){
+            url = "../../VehicleController/getOilRecord";
         }
         $.ajax({
             url: url,
