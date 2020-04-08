@@ -222,15 +222,15 @@ public class VehicleController {
     @RequestMapping(value = "/getOilRecord")
     @ResponseBody
     public ResultListModel<OilRecordModel> getOilRecord(String timeRange, String vehicleCode){
-        ResultListModel<OilRecordModel> result = new ResultListModel<>();
-        return result;
+        List<OilRecordModel> recordModels = vehicleService.getOilRecord(timeRange, vehicleCode);
+        return new ResultListModel<>(recordModels.size(), recordModels, "success");
     }
 
     @RequestMapping(value = "/getRepairRecord")
-    @ResponseBody
+    @ResponseBodyil
     public ResultListModel<RepairRecordModel> getRepairRecord(String timeRange, String vehicleCode){
-        ResultListModel<RepairRecordModel> result = new ResultListModel<>();
-        return result;
+        List<RepairRecordModel> recordModels = vehicleService.getRepairRecord(timeRange, vehicleCode);
+        return new ResultListModel<>(recordModels.size(), recordModels, "success");
     }
 
     private VehiclePojo convertVehicle(VehicleModel vehicleModel, HttpSession httpSession) {

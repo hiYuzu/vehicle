@@ -8,8 +8,9 @@ package com.plr.vehicle.model;
 public class OilRecordModel {
 
     private String vehicleName;
-    private String oilCode;
+    private String oilManufacturer;
     private String oilCost;
+    private String optTime;
 
     public String getVehicleName() {
         return vehicleName;
@@ -19,12 +20,12 @@ public class OilRecordModel {
         this.vehicleName = vehicleName;
     }
 
-    public String getOilCode() {
-        return oilCode;
+    public String getOilManufacturer() {
+        return oilManufacturer;
     }
 
-    public void setOilCode(String oilCode) {
-        this.oilCode = oilCode;
+    public void setOilManufacturer(String oilManufacturer) {
+        this.oilManufacturer = oilManufacturer;
     }
 
     public String getOilCost() {
@@ -33,5 +34,13 @@ public class OilRecordModel {
 
     public void setOilCost(String oilCost) {
         this.oilCost = oilCost;
+    }
+
+    public String getOptTime() {
+        return optTime;
+    }
+
+    public void setOptTime(String optTime) {
+        this.optTime = optTime;
     }
 }

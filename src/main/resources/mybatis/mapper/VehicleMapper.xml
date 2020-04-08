@@ -17,6 +17,17 @@
         <association property="vehicleType" javaType="com.plr.vehicle.pojo.VehicleTypePojo"
                      resultMap="com.plr.vehicle.dao.IVehicleTypeDao.vtResultMap1"></association>
     </resultMap>
+    <resultMap id="repairRecordMap" type="com.plr.vehicle.model.RepairRecordModel">
+        <result property="vehicleName" column="vehicle_name"/>
+        <result property="beginTime" column="begin_time"/>
+        <result property="repairCost" column="repair_cost"/>
+    </resultMap>
+    <resultMap id="oilRecordMap" type="com.plr.vehicle.model.OilRecordModel">
+        <result property="vehicleName" column="vehicle_name"/>
+        <result property="oilManufacturer" column="oil_manufacturer"/>
+        <result property="optTime" column="opt_time"/>
+        <result property="oilCost" column="oil_cost"/>
+    </resultMap>
 
     <!-- 获取权限内车辆个数 -->
     <select id="getAccessVehicleCount" resultType="java.lang.Integer">
@@ -141,5 +152,32 @@
         #{vehicle.optUser}
         )
     </insert>
+
+    <select id="getRepairRecord" resultMap="repairRecordMap">
+        SELECT
+        bv.vehicle_name,
+        dvr.begin_time,
+        dvr.repair_cost
+        FROM data_vehicle_repair dvr
+        LEFT JOIN base_vehicle bv ON dvr.vehicle_code = bv.vehicle_code
+        WHERE dvr.vehicle_code = #{vehicleCode}
+        <if test="beginT != null">
+            dvr.begin_time BETWEEN #{beginT} AND #{endT}
+        </if>
+    </select>
+    <select id="getOilRecord" resultMap="oilRecordMap">
+        SELECT
+        bv.vehicle_name,
+        bo.oil_manufacturer,
+        dvo.opt_time,
+        dvo.oil_cost
+        FROM data_vehicle_oil dvo
+        LEFT JOIN base_vehicle bv ON dvo.vehicle_code = bv.vehicle_code
+        LEFT JOIN base_oil bo ON dvo.oil_code = bo.oil_code
+        WHERE dvo.vehicle_code = #{vehicleCode}
+        <if test="beginT != null">
+            dvo.opt_time BETWEEN #{beginT} AND #{endT}
+        </if>
+    </select>
 
 </mapper>

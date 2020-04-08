@@ -47,8 +47,7 @@ layui.config({
             drawChart();
         }
     }
-    function drawChart(){
-
+    function drawChart() {
         //指定图表配置项和数据
         var chartTitle = $("#roRecord option:selected").text();
         var option = {

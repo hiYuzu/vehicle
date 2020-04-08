@@ -1,6 +1,8 @@
 package com.plr.vehicle.service;
 
 
+import com.plr.vehicle.model.OilRecordModel;
+import com.plr.vehicle.model.RepairRecordModel;
 import com.plr.vehicle.pojo.VehiclePojo;
 
 import java.util.List;
@@ -55,4 +57,20 @@ public interface IVehicleService {
      * @return
      */
     int insertVehicle(VehiclePojo vehicle);
+
+    /**
+     * 获取维修记录
+     * @param timeRange
+     * @param vehicleCode
+     * @return
+     */
+    List<RepairRecordModel> getRepairRecord(String timeRange, String vehicleCode);
+
+    /**
+     * 获取加油记录
+     * @param timeRange
+     * @param vehicleCode
+     * @return
+     */
+    List<OilRecordModel> getOilRecord(String timeRange, String vehicleCode);
 }

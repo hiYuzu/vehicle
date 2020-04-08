@@ -9,7 +9,6 @@ public class RepairRecordModel {
 
     private String vehicleName;
     private String beginTime;
-    private String endTime;
     private String repairCost;
 
     public String getVehicleName() {
@@ -26,14 +25,6 @@ public class RepairRecordModel {
 
     public void setBeginTime(String beginTime) {
         this.beginTime = beginTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
     }
 
     public String getRepairCost() {

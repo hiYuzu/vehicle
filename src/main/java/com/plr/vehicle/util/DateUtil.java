@@ -51,7 +51,7 @@ public class DateUtil {
      */
     public static String GetSystemDateTime()
     {
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String strTime = fmt.format(new Date());
         return strTime;
     }
