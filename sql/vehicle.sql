@@ -11,7 +11,7 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 06/03/2020 08:58:35
+ Date: 08/04/2020 13:48:31
 */
 
 SET NAMES utf8mb4;
@@ -317,15 +317,16 @@ CREATE TABLE `system_page`  (
 -- Records of system_page
 -- ----------------------------
 INSERT INTO `system_page` VALUES (1, 'HomePage', '首页', NULL, 'main.html', '&#xe68e;');
-INSERT INTO `system_page` VALUES (2, 'ManufacturerManagement', '厂商管理', NULL, 'page/manufacturer/manufacturerList.html', '&#xe614;');
+INSERT INTO `system_page` VALUES (2, 'ChartPage', '数据展示', NULL, 'page/data/dataChart.html', '&#xe667;');
 INSERT INTO `system_page` VALUES (3, 'OilManagement', '油卡管理', NULL, 'page/oil/oilList.html', '&#xe62c;');
 INSERT INTO `system_page` VALUES (4, 'VehicleManagement', '车辆管理', NULL, 'page/vehicle/vehicleList.html', '&#xe631;');
 INSERT INTO `system_page` VALUES (5, 'VehicleTypeManagement', '车辆类型', NULL, 'page/vehicleType/vehicleTypeList.html', '&#xe632;');
 INSERT INTO `system_page` VALUES (6, 'DriverManagement', '驾驶员管理', NULL, 'page/driver/driverList.html', '&#xe620;');
 INSERT INTO `system_page` VALUES (7, 'UserManagement', '用户管理', NULL, 'page/user/userList.html', '&#xe770;');
-INSERT INTO `system_page` VALUES (8, 'AuthorityManagement', '权限管理', NULL, 'page/authority/authorityList.html', '&#xe672;');
-INSERT INTO `system_page` VALUES (9, 'PowerConfig', '权限配置', NULL, 'page/power/powerConfig.html', '&#xe679;');
-INSERT INTO `system_page` VALUES (10, 'NewsPage', '公告编辑', NULL, 'page/news/newsList.html', '&#xe667;');
+INSERT INTO `system_page` VALUES (8, 'ManufacturerManagement', '厂商管理', NULL, 'page/manufacturer/manufacturerList.html', '&#xe614;');
+INSERT INTO `system_page` VALUES (9, 'AuthorityManagement', '权限管理', NULL, 'page/authority/authorityList.html', '&#xe672;');
+INSERT INTO `system_page` VALUES (10, 'PowerConfig', '权限配置', '', 'page/power/powerConfig.html', '&#xe679;');
+INSERT INTO `system_page` VALUES (11, 'NewsPage', '公告编辑', NULL, 'page/news/newsList.html', '&#xe667;');
 
 -- ----------------------------
 -- Table structure for system_users

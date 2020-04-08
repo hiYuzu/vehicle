@@ -227,7 +227,7 @@ public class VehicleController {
     }
 
     @RequestMapping(value = "/getRepairRecord")
-    @ResponseBodyil
+    @ResponseBody
     public ResultListModel<RepairRecordModel> getRepairRecord(String timeRange, String vehicleCode){
         List<RepairRecordModel> recordModels = vehicleService.getRepairRecord(timeRange, vehicleCode);
         return new ResultListModel<>(recordModels.size(), recordModels, "success");

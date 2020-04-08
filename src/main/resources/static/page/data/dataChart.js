@@ -32,6 +32,7 @@ layui.config({
             success: function (json) {
                 if (json.result) {
                     chartData = json.data;
+                    console.log(chartData.toString());
                     initChart();
                 } else {
                     chartData = null;

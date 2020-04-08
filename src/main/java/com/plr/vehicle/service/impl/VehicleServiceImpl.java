@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -66,7 +67,8 @@ public class VehicleServiceImpl implements IVehicleService {
             beginT = DateUtil.TimestampToString(DateUtil.GetSystemDateTime(1000 * 60 * 60 * 24 * Integer.parseInt(timeRange)), DateUtil.DATA_TIME_SECOND);
             endT = DateUtil.GetSystemDateTime();
         }
-        return vehicleDao.getRepairRecord(beginT, endT, vehicleCode);
+        List<RepairRecordModel> repairRecordModels = vehicleDao.getRepairRecord(beginT, endT, vehicleCode);
+        return repairRecordModels.size() > 0 ? repairRecordModels : new ArrayList<>();
     }
 
     @Override
@@ -76,7 +78,8 @@ public class VehicleServiceImpl implements IVehicleService {
             beginT = DateUtil.TimestampToString(DateUtil.GetSystemDateTime(1000 * 60 * 60 * 24 * Integer.parseInt(timeRange)), DateUtil.DATA_TIME_SECOND);
             endT = DateUtil.GetSystemDateTime();
         }
-        return vehicleDao.getOilRecord(beginT, endT, vehicleCode);
+        List<OilRecordModel> oilRecordModels = vehicleDao.getOilRecord(beginT, endT, vehicleCode);
+        return oilRecordModels.size() > 0 ? oilRecordModels : new ArrayList<>();
     }
 
 }

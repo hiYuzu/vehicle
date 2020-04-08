@@ -162,7 +162,7 @@
         LEFT JOIN base_vehicle bv ON dvr.vehicle_code = bv.vehicle_code
         WHERE dvr.vehicle_code = #{vehicleCode}
         <if test="beginT != null">
-            dvr.begin_time BETWEEN #{beginT} AND #{endT}
+            AND dvr.begin_time BETWEEN #{beginT} AND #{endT}
         </if>
     </select>
     <select id="getOilRecord" resultMap="oilRecordMap">
@@ -176,7 +176,7 @@
         LEFT JOIN base_oil bo ON dvo.oil_code = bo.oil_code
         WHERE dvo.vehicle_code = #{vehicleCode}
         <if test="beginT != null">
-            dvo.opt_time BETWEEN #{beginT} AND #{endT}
+            AND dvo.opt_time BETWEEN #{beginT} AND #{endT}
         </if>
     </select>
 
