@@ -11,7 +11,7 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 08/04/2020 13:48:31
+ Date: 09/04/2020 13:47:06
 */
 
 SET NAMES utf8mb4;
@@ -166,6 +166,12 @@ CREATE TABLE `data_vehicle_repair`  (
   PRIMARY KEY (`repair_id`) USING BTREE,
   INDEX `fk_svr_vehicle_code`(`vehicle_code`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of data_vehicle_repair
+-- ----------------------------
+INSERT INTO `data_vehicle_repair` VALUES (1, 'v000001', '2020-04-01 10:21:44', '2020-04-03 10:21:48', 150, 1, '2020-04-09 10:22:26');
+INSERT INTO `data_vehicle_repair` VALUES (2, 'v000001', '2020-04-08 10:22:36', '2020-04-09 10:22:40', 150, 1, '2020-04-09 10:22:44');
 
 -- ----------------------------
 -- Table structure for system_access_oil

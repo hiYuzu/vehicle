@@ -11,11 +11,17 @@ layui.config({
         $ = layui.jquery;
     var chart1 = echarts.init(document.getElementById('chart1'));
     var chartData = null;
-    initChart();
+    var roRecord;
+    drawChart();
     $(".search_btn").click(function () {
-        searchData($("#roRecord").val(), $("#timeRange").val(), $("#vehicleCodeValue").val());
+        roRecord = $("#roRecord").val();
+        searchData($("#timeRange").val(), $("#vehicleCodeValue").val());
     });
-    function searchData(roRecord, timeRange, vehicleCode) {
+    function searchData(timeRange, vehicleCode) {
+        if (vehicleCode == "") {
+            layer.msg("请输入车辆编号！");
+            return;
+        }
         var url = "../../VehicleController/getRepairRecord";
         if (roRecord == 1){
             url = "../../VehicleController/getOilRecord";
@@ -30,61 +36,58 @@ layui.config({
                 layer.msg("查询失败！");
             },
             success: function (json) {
-                if (json.result) {
+                if (json.count > 0) {
                     chartData = json.data;
-                    console.log(chartData.toString());
-                    initChart();
+                    drawChart();
                 } else {
                     chartData = null;
-                    layer.msg(json.detail);
+                    layer.msg("无数据");
                 }
             }
         })
     }
-    function initChart() {
-        chart1.clear();
-        if (chartData != null) {
-            //TODO..parse chartData
-            drawChart();
-        }
-    }
     function drawChart() {
-        //指定图表配置项和数据
-        var chartTitle = $("#roRecord option:selected").text();
-        var option = {
-            title: {
-                text: chartTitle
-            },
-            tooltip: {},
-            legend: {
-                data: ['销量', '产量']
-            },
-            xAxis: {
-                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周天']
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [{
-                name: '销量',
-                type: 'bar', //柱状
-                data: [100,200,300,400,500,600,700],
-                itemStyle: {
-                    normal: { //柱子颜色
-                        color: 'red'
-                    }
+        if (chartData != null) {
+            var xAxisData = [];
+            var seriesData = [];
+            for (var i = 0; i < Object.keys(chartData).length; i++) {
+                if (roRecord == 0) {
+                    xAxisData.push(chartData[i].beginTime);
+                    seriesData.push(chartData[i].repairCost);
                 }
-            },{
-                name:'产量',
-                type:'bar',
-                data:[120,210,340,430,550,680,720],
-                itemStyle:{
-                    normal:{
-                        color:'blue'
-                    }
+                else {
+                    xAxisData.push(chartData[i].optTime);
+                    seriesData.push(chartData[i].oilCost);
                 }
-            }]
-        };
-        chart1.setOption(option, true);
+            }
+            //指定图表配置项和数据
+            var chartTitle = $("#roRecord option:selected").text();
+            var option = {
+                title: {
+                    text: chartTitle
+                },
+                tooltip: {},
+                legend: {
+                    data: [chartData[0].vehicleName]
+                },
+                xAxis: {
+                    data: xAxisData
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    name: chartData[0].vehicleName,
+                    type: 'bar', //柱状
+                    data: seriesData,
+                    itemStyle: {
+                        normal: { //柱子颜色
+                            color: 'red'
+                        }
+                    }
+                }]
+            };
+            chart1.setOption(option, true);
+        }
     }
 });
