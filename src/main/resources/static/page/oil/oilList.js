@@ -25,7 +25,7 @@ layui.config({
             , elem: '#oilListTable'
             , url: '../../OilController/getAuthorityOil'
             , method: 'post'
-            , where: {oilName: oilName} //传参*/
+            , where: {oilManufacturer: oilName} //传参*/
             , page: true //开启分页
             , cols: [[
                 {checkbox: true, fixed: true}

@@ -1,12 +1,17 @@
 package com.plr.vehicle.service.impl;
 
+import com.plr.vehicle.dao.IAuthorityUserDao;
 import com.plr.vehicle.dao.IUserDao;
+import com.plr.vehicle.pojo.AuthorityPojo;
+import com.plr.vehicle.pojo.AuthorityUserPojo;
 import com.plr.vehicle.pojo.UserPojo;
 import com.plr.vehicle.service.IUserService;
+import com.plr.vehicle.util.IdWorkerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -20,6 +25,8 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private IUserDao userDao;
+    @Resource
+    private IAuthorityUserDao authorityUserDao;
 
     @Override
     public int getUserCount(UserPojo userPojo) {
@@ -41,7 +48,15 @@ public class UserServiceImpl implements IUserService {
         int result = 0;
         if(userPojo != null){
             result = userDao.insertUser(userPojo);
+            AuthorityUserPojo au = new AuthorityUserPojo();
+            au.setAuthorityUserId(userPojo.getUserId() + 1);
+            au.setAuthority(new AuthorityPojo());
+            au.getAuthority().setAuthorityId(2);
+            au.setUser(userPojo);
+            au.setOptUser(userPojo.getOptUser());
+            authorityUserDao.insertAuthorityUser(au);
         }
+
         return result;
     }
 
