@@ -1,6 +1,7 @@
 package com.plr.vehicle.dao;
 
 import com.plr.vehicle.model.OilRecordModel;
+import com.plr.vehicle.model.RentRecordModel;
 import com.plr.vehicle.model.RepairRecordModel;
 import com.plr.vehicle.pojo.VehiclePojo;
 import org.apache.ibatis.annotations.Param;
@@ -80,4 +81,13 @@ public interface IVehicleDao {
      * @return
      */
     List<OilRecordModel> getOilRecord(@Param("beginT") String beginT, @Param("endT") String endT, @Param("vehicleCode") String vehicleCode);
+
+    /**
+     * 获取出租记录
+     * @param beginT
+     * @param endT
+     * @param vehicleCode
+     * @return
+     */
+    List<RentRecordModel> getRentRecord(@Param("beginT") String beginT, @Param("endT") String endT, @Param("vehicleCode") String vehicleCode);
 }

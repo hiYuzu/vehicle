@@ -2,6 +2,7 @@ package com.plr.vehicle.service.impl;
 
 import com.plr.vehicle.dao.IVehicleDao;
 import com.plr.vehicle.model.OilRecordModel;
+import com.plr.vehicle.model.RentRecordModel;
 import com.plr.vehicle.model.RepairRecordModel;
 import com.plr.vehicle.pojo.VehiclePojo;
 import com.plr.vehicle.service.IVehicleService;
@@ -80,6 +81,17 @@ public class VehicleServiceImpl implements IVehicleService {
         }
         List<OilRecordModel> oilRecordModels = vehicleDao.getOilRecord(beginT, endT, vehicleCode);
         return oilRecordModels.size() > 0 ? oilRecordModels : new ArrayList<>();
+    }
+
+    @Override
+    public List<RentRecordModel> getRentRecord(String timeRange, String vehicleCode) {
+        String beginT = null, endT = null;
+        if (Integer.parseInt(timeRange) != 0) {
+            beginT = DateUtil.TimestampToString(DateUtil.GetSystemDateTime(1000 * 60 * 60 * 24 * Integer.parseInt(timeRange)), DateUtil.DATA_TIME_SECOND);
+            endT = DateUtil.GetSystemDateTime();
+        }
+        List<RentRecordModel> rentRecordModels = vehicleDao.getRentRecord(beginT, endT, vehicleCode);
+        return rentRecordModels.size() > 0 ? rentRecordModels : new ArrayList<>();
     }
 
 }

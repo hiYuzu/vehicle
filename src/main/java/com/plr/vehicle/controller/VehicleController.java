@@ -233,6 +233,12 @@ public class VehicleController {
         return new ResultListModel<>(recordModels.size(), recordModels, "success");
     }
 
+    @RequestMapping(value = "/getRentRecord")
+    @ResponseBody
+    public ResultListModel<RentRecordModel> getRentRecord(String timeRange, String vehicleCode){
+        List<RentRecordModel> recordModels = vehicleService.getRentRecord(timeRange, vehicleCode);
+        return new ResultListModel<>(recordModels.size(), recordModels, "success");
+    }
     private VehiclePojo convertVehicle(VehicleModel vehicleModel, HttpSession httpSession) {
         VehiclePojo vehicle = new VehiclePojo();
         if (vehicleModel != null) {

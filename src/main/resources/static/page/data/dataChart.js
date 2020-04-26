@@ -26,6 +26,9 @@ layui.config({
         if (roRecord == 1){
             url = "../../VehicleController/getOilRecord";
         }
+        else if (roRecord == 2) {
+            url = "../../VehicleController/getRentRecord";
+        }
         $.ajax({
             url: url,
             type: "post",
@@ -55,9 +58,25 @@ layui.config({
                     xAxisData.push(chartData[i].beginTime);
                     seriesData.push(chartData[i].repairCost);
                 }
-                else {
+                else if (roRecord == 1) {
                     xAxisData.push(chartData[i].optTime);
-                    seriesData.push(chartData[i].oilCost);
+                    //seriesData.push(chartData[i].oilCost);
+                    seriesData = chartData.map(function (item) {
+                        return {
+                            value: item.oilCost,
+                            optName: item.oilManufacturer
+                        }
+                    })
+                }
+                else if (roRecord == 2) {
+                    xAxisData.push(chartData[i].beginTime);
+                    seriesData.push(chartData[i].rentCost);
+                    seriesData = chartData.map(function (item) {
+                        return {
+                            value: item.rentCost,
+                            optName: "驾驶员: " + item.driverName
+                        }
+                    })
                 }
             }
             //指定图表配置项和数据
@@ -66,9 +85,13 @@ layui.config({
                 title: {
                     text: chartTitle
                 },
-                tooltip: {},
+                tooltip: {
+                    trigger:"axis",
+                    formatter: function (params) {
+                        return params[0].data.optName;
+                    }
+                },
                 legend: {
-                    data: [chartData[0].vehicleName]
                 },
                 xAxis: {
                     data: xAxisData
@@ -90,4 +113,58 @@ layui.config({
             chart1.setOption(option, true);
         }
     }
+    //出租
+    $(".vehicleGo").click(function () {
+        var index = layui.layer.open({
+            title: "车辆出租",
+            type: 2,
+            content: "vehicleGo.html",
+            success: function (layero, index) {
+                // layui.layer.tips('点击此处返回文章列表', '.layui-layer-setwin .layui-layer-close', {
+                // 	tips: 3
+                // });
+            }
+        });
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function () {
+            layui.layer.full(index);
+        });
+        layui.layer.full(index);
+    });
+    //加油
+    $(".vehicleOil").click(function () {
+        var index = layui.layer.open({
+            title: "添加车辆",
+            type: 2,
+            content: "vehicleOil.html",
+            success: function (layero, index) {
+                // layui.layer.tips('点击此处返回文章列表', '.layui-layer-setwin .layui-layer-close', {
+                // 	tips: 3
+                // });
+            }
+        });
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function () {
+            layui.layer.full(index);
+        });
+        layui.layer.full(index);
+    });
+    //维修
+    $(".vehicleRepair").click(function () {
+        var index = layui.layer.open({
+            title: "维修车辆",
+            type: 2,
+            content: "vehicleRepair.html",
+            success: function (layero, index) {
+                // layui.layer.tips('点击此处返回文章列表', '.layui-layer-setwin .layui-layer-close', {
+                // 	tips: 3
+                // });
+            }
+        });
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function () {
+            layui.layer.full(index);
+        });
+        layui.layer.full(index);
+    });
 });

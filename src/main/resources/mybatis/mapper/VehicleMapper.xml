@@ -29,6 +29,14 @@
         <result property="oilCost" column="oil_cost"/>
     </resultMap>
 
+    <resultMap id="rentRecordMap" type="com.plr.vehicle.model.RentRecordModel">
+        <result property="vehicleName" column="vehicle_name"/>
+        <result property="driverName" column="driver_name"/>
+        <result property="beginTime" column="begin_time"/>
+        <result property="rentCost" column="total_cost"/>
+    </resultMap>
+
+
     <!-- 获取权限内车辆个数 -->
     <select id="getAccessVehicleCount" resultType="java.lang.Integer">
         SELECT COUNT(DISTINCT bv.vehicle_id)
@@ -180,4 +188,18 @@
         </if>
     </select>
 
+    <select id="getRentRecord" resultMap="rentRecordMap">
+        SELECT
+        bv.vehicle_name,
+        bd.driver_name,
+        uvd.begin_time,
+        uvd.total_cost
+        FROM util_vehicle_driver uvd
+        LEFT JOIN base_vehicle bv ON uvd.vehicle_id = bv.vehicle_id
+        LEFT JOIN base_driver bd ON uvd.driver_id = bd.driver_id
+        WHERE bv.vehicle_code = #{vehicleCode}
+        <if test="beginT != null">
+            AND uvd.begin_time BETWEEN #{beginT} AND #{endT}
+        </if>
+    </select>
 </mapper>

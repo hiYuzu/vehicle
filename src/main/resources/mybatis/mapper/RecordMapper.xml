@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.plr.vehicle.dao.IRecordDao">
+
+    <insert id="insertRentRecord">
+        INSERT INTO util_vehicle_driver(
+            d_v_id,
+            driver_id,
+            vehicle_id,
+            begin_time,
+            end_time,
+            total_cost,
+            opt_user
+        )VALUES (
+            #{id},
+            #{driverId},
+            #{vehicleId},
+            #{beginTime},
+            #{endTime},
+            #{totalCost},
+            #{optUser}
+        )
+    </insert>
+    <insert id="insertOilRecord">
+        INSERT INTO data_vehicle_oil(
+            v_o_id,
+            vehicle_code,
+            oil_code,
+            oil_cost,
+            opt_user
+        )VALUES (
+            #{id},
+            #{vehicleCode},
+            #{oilCode},
+            #{oilCost},
+            #{optUser}
+        )
+    </insert>
+    <insert id="insertRepairRecord">
+        INSERT INTO data_vehicle_repair(
+            repair_id,
+            vehicle_code,
+            begin_time,
+            end_time,
+            repair_cost,
+            opt_user
+        )VALUES (
+            #{id},
+            #{vehicleCode},
+            #{beginTime},
+            #{endTime},
+            #{repairCost},
+            #{optUser}
+        )
+    </insert>
+
+</mapper>
