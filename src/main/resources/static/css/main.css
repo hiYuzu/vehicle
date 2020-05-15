@@ -16,8 +16,8 @@
 .hideMenu{ float:left; width:20px; height:20px; margin:15px 15px 0 0; font-size:17px; text-align:center; padding:5px 5px; color:#fff; background-color:#1AA094; }
 .hideMenu:hover{ color:#fff; }
 
-.logo{ color: #fff; float: left; line-height:60px; font-size:20px; padding:0 25px; text-align: center; margin-right: 15px; }
-.weather{ color:#fff; float:left; margin:15px 0 0 50px;}
+.logo{ color: #000000; float: left; line-height:60px; font-size:20px; padding:0 25px; text-align: center; margin-right: 15px; }
+.weather{ color:#000000; float:left; margin:15px 0 0 50px;}
 .component{ float: left; width:160px; height:30px; margin-top: 15px; position: relative;}
 .component .layui-input{ height:30px; line-height: 30px; font-size:12px; border:none; transition: all 0.3s; }
 .component .layui-input:focus{ background:#fff; color:#000; }
@@ -41,7 +41,7 @@
 .user-photo{width: 160px; height: 110px; padding-top: 5px; padding-bottom: 5px;}
 .user-photo a.img{ display: block; width: 76px; height: 76px; margin: 0 auto; margin-bottom: 15px;}
 .user-photo a.img img{ display: block; border: none; width: 100%; height: 100%; border-radius: 50%; -webkit-border-radius: 50%; -moz-border-radius: 50%; border: 4px solid #44576b;}
-.user-photo p{ display: block; width: 100%; height: 25px; color: #ffffff; text-align: center; font-size: 12px; white-space: nowrap;line-height: 25px; overflow: hidden;}
+.user-photo p{ display: block; width: 100%; height: 25px; color: #000000; text-align: center; font-size: 12px; white-space: nowrap;line-height: 25px; overflow: hidden;}
 /*左侧导航重定义*/
 .layui-nav-item a cite{ padding:0 5px; }
 .layui-side-scroll{ height:auto; }

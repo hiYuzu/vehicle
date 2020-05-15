@@ -18,12 +18,12 @@
 <body class="main_body">
 	<div class="layui-layout layui-layout-admin">
 		<!-- 顶部 -->
-		<div class="layui-header header">
+		<div class="layui-header header layui-bg-white">
 			<div class="layui-main">
-				<a href="#" class="logo">车辆管理系统</a>
+				<a href="#" class="logo" style="color: #000000">车辆管理系统</a>
 			    <!-- 天气信息 -->
 			    <div class="weather" pc="pc">
-					<div id="tp-weather-widget"></div>
+					<div id="tp-weather-widget" class="tp-weather"></div>
 					<script>(function(T,h,i,n,k,P,a,g,e){g=function(){P=h.createElement(i);a=h.getElementsByTagName(i)[0];P.src=k;P.charset="utf-8";P.async=1;a.parentNode.insertBefore(P,a)};T["ThinkPageWeatherWidgetObject"]=n;T[n]||(T[n]=function(){(T[n].q=T[n].q||[]).push(arguments)});T[n].l=+new Date();if(T.attachEvent){T.attachEvent("onload",g)}else{T.addEventListener("load",g,false)}}(window,document,"script","tpwidget","//widget.seniverse.com/widget/chameleon.js"))</script>
 					<script>tpwidget("init", {
                         "flavor": "slim",
@@ -35,7 +35,7 @@
                         "container": "tp-weather-widget",
                         "bubble": "enabled",
                         "alarmType": "badge",
-                        "color": "#FFFFFF",
+                        "color": "#000000",
                         "uid": "U37E8327BB",
                         "hash": "ac3fb8b251440dd11ff217d5b42ed9e4"
                     });
@@ -66,7 +66,7 @@
 			</div>
 		</div>
 		<!-- 左侧导航 -->
-		<div class="layui-side layui-bg-black">
+		<div class="layui-side layui-bg-black layui-bg-white">
 			<div class="user-photo">
 				<a class="img" title="系统头像" ><img src="images/face.jpg" /></a>
 				<p><span class="userName" id="spanUserName"></span>, 欢迎登录!</p>

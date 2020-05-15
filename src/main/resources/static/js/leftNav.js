@@ -1,5 +1,5 @@
 function navBar(data) {
-    var ulHtml = '<ul class="layui-nav layui-nav-tree">';
+    var ulHtml = '<ul class="layui-nav layui-nav-tree layui-bg-white">';
     for (var i = 0; i < data.length; i++) {
         if (data[i].spread) {
             ulHtml += '<li class="layui-nav-item layui-nav-itemed">';
@@ -12,7 +12,7 @@ function navBar(data) {
                 if (data[i].icon.indexOf("icon-") != -1) {
                     ulHtml += '<i class="iconfont ' + data[i].icon + '" data-icon="' + data[i].icon + '"></i>';
                 } else {
-                    ulHtml += '<i class="layui-icon" data-icon="' + data[i].icon + '">' + data[i].icon + '</i>';
+                    ulHtml += '<i class="layui-icon" data-icon="' + data[i].icon + '" style="color: #000000">' + data[i].icon + '</i>';
                 }
             }
             ulHtml += '<cite>' + data[i].title + '</cite>';
@@ -37,7 +37,7 @@ function navBar(data) {
                 if (data[i].icon.indexOf("icon-") != -1) {
                     ulHtml += '<i class="iconfont ' + data[i].icon + '" data-icon="' + data[i].icon + '"></i>';
                 } else {
-                    ulHtml += '<i class="layui-icon" data-icon="' + data[i].icon + '">' + data[i].icon + '</i>';
+                    ulHtml += '<i class="layui-icon" data-icon="' + data[i].icon + '" style="color: #000000">' + data[i].icon + '</i>';
                 }
             }
             ulHtml += '<cite>' + data[i].title + '</cite></a>';
