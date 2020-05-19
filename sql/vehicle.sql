@@ -11,7 +11,7 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 09/04/2020 13:47:06
+ Date: 19/05/2020 11:03:23
 */
 
 SET NAMES utf8mb4;
@@ -103,7 +103,7 @@ CREATE TABLE `base_oil`  (
 -- ----------------------------
 -- Records of base_oil
 -- ----------------------------
-INSERT INTO `base_oil` VALUES (402757325947023360, 'o000001', '中国石油天然气集团有限公司', 30000, 1, '2020-01-17 09:33:49');
+INSERT INTO `base_oil` VALUES (402757325947023360, 'o000001', '中国石油天然气集团有限公司', 29800, 1, '2020-01-17 09:33:49');
 INSERT INTO `base_oil` VALUES (402758182243545088, 'o000002', '中国石油化工集团有限公司', 30000, 1, '2020-01-17 09:43:56');
 INSERT INTO `base_oil` VALUES (402763966952124416, 'o000003', '测试厂商', 100, 1, '2020-01-17 10:00:12');
 
@@ -140,7 +140,7 @@ INSERT INTO `base_vehicle` VALUES (402818952088137728, 'v000001', '桑塔纳01',
 -- ----------------------------
 DROP TABLE IF EXISTS `data_vehicle_oil`;
 CREATE TABLE `data_vehicle_oil`  (
-  `v_o_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `v_o_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `vehicle_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `oil_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `oil_cost` double NOT NULL,
@@ -149,7 +149,12 @@ CREATE TABLE `data_vehicle_oil`  (
   PRIMARY KEY (`v_o_id`) USING BTREE,
   INDEX `fk_svo_vehicle_code`(`vehicle_code`) USING BTREE,
   INDEX `fk_svo_oil_code`(`oil_code`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 437958242249879553 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of data_vehicle_oil
+-- ----------------------------
+INSERT INTO `data_vehicle_oil` VALUES (437958242249879552, 'v000001', 'o000001', 100, 1, '2020-04-23 12:49:41');
 
 -- ----------------------------
 -- Table structure for data_vehicle_repair
@@ -172,6 +177,7 @@ CREATE TABLE `data_vehicle_repair`  (
 -- ----------------------------
 INSERT INTO `data_vehicle_repair` VALUES (1, 'v000001', '2020-04-01 10:21:44', '2020-04-03 10:21:48', 150, 1, '2020-04-09 10:22:26');
 INSERT INTO `data_vehicle_repair` VALUES (2, 'v000001', '2020-04-08 10:22:36', '2020-04-09 10:22:40', 150, 1, '2020-04-09 10:22:44');
+INSERT INTO `data_vehicle_repair` VALUES (437957760265629696, 'v000001', '2020-04-22 00:00:00', '2020-04-23 00:00:00', 200, 1, '2020-04-23 12:47:46');
 
 -- ----------------------------
 -- Table structure for system_access_oil
@@ -303,6 +309,7 @@ CREATE TABLE `system_authority_user`  (
 -- Records of system_authority_user
 -- ----------------------------
 INSERT INTO `system_authority_user` VALUES (356403687859560448, 1, 1, 343424007791583232, '2019-09-11 11:38:37');
+INSERT INTO `system_authority_user` VALUES (437633627849895936, 2, 437633523944402944, 437633523944402944, '2020-04-22 15:19:47');
 
 -- ----------------------------
 -- Table structure for system_page
@@ -333,6 +340,7 @@ INSERT INTO `system_page` VALUES (8, 'ManufacturerManagement', '厂商管理', N
 INSERT INTO `system_page` VALUES (9, 'AuthorityManagement', '权限管理', NULL, 'page/authority/authorityList.html', '&#xe672;');
 INSERT INTO `system_page` VALUES (10, 'PowerConfig', '权限配置', '', 'page/power/powerConfig.html', '&#xe679;');
 INSERT INTO `system_page` VALUES (11, 'NewsPage', '公告编辑', NULL, 'page/news/newsList.html', '&#xe667;');
+INSERT INTO `system_page` VALUES (12, 'MapPage', '车辆位置', NULL, 'page/map/map.html', '&#xe62c;');
 
 -- ----------------------------
 -- Table structure for system_users
@@ -357,7 +365,7 @@ CREATE TABLE `system_users`  (
 -- Records of system_users
 -- ----------------------------
 INSERT INTO `system_users` VALUES (1, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', '管理员', '', '', 0, NULL, 0, 0, '2019-08-06 16:05:55');
-INSERT INTO `system_users` VALUES (402824756484780032, 'test', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', 'test', '', '', 1, 'test stop', 0, 1, '2020-01-17 14:01:46');
+INSERT INTO `system_users` VALUES (437633523944402944, 'test', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', 'test', '', '', 0, '', 0, 1, '2020-04-22 15:19:22');
 
 -- ----------------------------
 -- Table structure for util_vehicle_driver
@@ -378,6 +386,11 @@ CREATE TABLE `util_vehicle_driver`  (
   CONSTRAINT `fk_uvd_driverid` FOREIGN KEY (`driver_id`) REFERENCES `base_driver` (`driver_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_uvd_vehicleid` FOREIGN KEY (`vehicle_id`) REFERENCES `base_vehicle` (`vehicle_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of util_vehicle_driver
+-- ----------------------------
+INSERT INTO `util_vehicle_driver` VALUES (1, 1, 402818952088137728, '2020-04-22 09:39:51', '2020-04-23 09:39:55', 100, 1, '2020-04-23 09:40:15');
 
 -- ----------------------------
 -- Table structure for util_vehicle_type

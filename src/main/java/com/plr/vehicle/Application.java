@@ -1,6 +1,7 @@
 package com.plr.vehicle;
 
 import com.plr.vehicle.config.SystemConfig;
+import com.plr.vehicle.tcp.TcpAsyncServer;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,10 +17,12 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @MapperScan("com.plr.vehicle.dao")
 public class Application extends SpringBootServletInitializer {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         SpringApplication springApplication = new SpringApplication(Application.class);
         springApplication.addListeners(new SystemConfig());
         springApplication.run(args);
+        TcpAsyncServer tcpServer = new TcpAsyncServer();
+        tcpServer.start();
     }
 
     @Override

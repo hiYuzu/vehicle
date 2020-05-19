@@ -61,4 +61,5 @@ public class DefaultParam {
      */
     public static final String DB_OLD_NAME = "dust_load_old";
 
+    public static String point = "";
 }

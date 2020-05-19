@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户管理--车辆管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="../../css/font_eolqem241z66flxr.css" media="all"/>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=BsDDtbVdLh2bqHGjWk5d8TtKLG4DbKwr"></script>
+</head>
+<body class="childrenBody">
+<blockquote class="layui-elem-quote users_search">
+    <div class="layui-inline">
+        <div class="layui-input-inline">
+            <label class="layui-form-label">车辆名</label>
+            <select id="vehicle" name="vehicle" style="min-height: 38px"
+                    class="layui-select search_select">
+            </select>
+        </div>
+        <a class="layui-btn search_btn">查询</a>
+    </div>
+</blockquote>
+<div id="map" style="height: 800px;"></div>
+</body>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="map.js"></script>
+</html>
