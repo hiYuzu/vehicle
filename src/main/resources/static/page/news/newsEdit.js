@@ -29,7 +29,7 @@ layui.config({
         initFormData();
     });
 
-    function initFormData() {
+    window.initFormData = function () {
         if (row != null && row != '') {
             $("#newsId").val(row.newsId);
             $("#newsTitle").val(row.newsTitle);
@@ -80,4 +80,5 @@ layui.config({
 
 function showFormData(data) {
     row = data;
+    initFormData();
 }
