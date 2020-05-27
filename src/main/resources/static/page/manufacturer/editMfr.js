@@ -6,6 +6,8 @@ layui.config({
         layer = parent.layer === undefined ? layui.layer : parent.layer,
         $ = layui.jquery;
 
+    initFormData();
+
     form.on("submit(editSubmit)", function (data) {
         var dataPara = data.field;
         //弹出loading
@@ -39,7 +41,8 @@ layui.config({
         initFormData();
     });
 
-    window.initFormData = function () {
+    // window.initFormData = function () {
+    function initFormData() {
         if (row != null && row != '') {
             $("#mfrId").val(row.mfrId);
             $("#mfrCode").val(row.mfrCode);
@@ -53,6 +56,6 @@ layui.config({
 
 function showFormData(data) {
     row = data;
-    initFormData();
+    // initFormData();
 }
 

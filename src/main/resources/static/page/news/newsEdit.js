@@ -1,7 +1,7 @@
 var row;
 layui.config({
-    base : "js/"
-}).use(['form','layer','jquery','layedit','laydate'],function(){
+    base: "js/"
+}).use(['form', 'layer', 'jquery', 'layedit', 'laydate'], function () {
     var form = layui.form,
         layer = parent.layer === undefined ? layui.layer : parent.layer,
         layedit = layui.layedit,
@@ -17,7 +17,7 @@ layui.config({
     var editIndex = layedit.build('newsContent');
 
     form.verify({
-        newsContent: function(value) {
+        newsContent: function (value) {
             return layedit.sync(editIndex);
         }
     });
@@ -29,39 +29,39 @@ layui.config({
         initFormData();
     });
 
-    window.initFormData = function () {
+    // window.initFormData = function () {
+    function initFormData() {
         if (row != null && row != '') {
             $("#newsId").val(row.newsId);
             $("#newsTitle").val(row.newsTitle);
             $("#newsAuthor").val(row.newsAuthor);
-            if(row.newsShow){
+            if (row.newsShow) {
                 $("input[name='newsShow']").prop("checked", true);
             }
             $("#showTime").val(row.showTime);
-            try
-            {
-                layedit.setContent(editIndex,row.newsContent);
-            }catch(e){
+            try {
+                layedit.setContent(editIndex, row.newsContent);
+            } catch (e) {
                 console.log(e.message);
             }
             form.render();
         }
     }
 
-    form.on("submit(editNews)",function(data){
-        var dataPara=data.field;
+    form.on("submit(editNews)", function (data) {
+        var dataPara = data.field;
         //弹出loading
-        var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
+        var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
         $.ajax({
-            url : "../../NewsController/updateNews",
-            type : "post",
-            dataType : "json",
-            data : dataPara,
-            error : function(json) {
+            url: "../../NewsController/updateNews",
+            type: "post",
+            dataType: "json",
+            data: dataPara,
+            error: function (json) {
                 top.layer.close(index);
                 top.layer.msg("公告添加失败！");
             },
-            success : function(json) {
+            success: function (json) {
                 top.layer.close(index);
                 if (json.result) {
                     top.layer.msg("公告添加成功！");
@@ -80,5 +80,5 @@ layui.config({
 
 function showFormData(data) {
     row = data;
-    initFormData();
+    // initFormData();
 }

@@ -6,7 +6,10 @@ layui.config({
         layer = parent.layer === undefined ? layui.layer : parent.layer,
         $ = layui.jquery;
 
-    window.renderForm = function () {
+    renderForm();
+
+    // window.renderForm = function () {
+    function renderForm() {
         layui.use('laydate', function () {
             var laydate = layui.laydate;
             laydate.render({
@@ -18,7 +21,7 @@ layui.config({
             form.render();
         });
         initFormData();
-    };
+    }
 
 
     form.on("submit(editSubmit)", function (data) {
@@ -75,6 +78,6 @@ layui.config({
 
 function showFormData(data) {
     row = data;
-    renderForm();
+    // renderForm();
 }
 

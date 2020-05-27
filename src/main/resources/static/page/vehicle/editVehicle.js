@@ -11,7 +11,10 @@ layui.config({
         layer = parent.layer === undefined ? layui.layer : parent.layer,
         $ = layui.jquery;
 
-    window.initForeignKey = function () {
+    initForeignKey();
+
+    // window.initForeignKey = function () {
+    function initForeignKey() {
         $.ajax({
             url: "../../VehicleController/getForeignInfo",
             type: "post",
@@ -86,5 +89,5 @@ layui.config({
 
 function showFormData(data) {
     row = data;
-    initForeignKey();
+    // initForeignKey();
 }

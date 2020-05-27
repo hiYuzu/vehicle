@@ -11,6 +11,8 @@ layui.config({
         layer = parent.layer === undefined ? layui.layer : parent.layer,
         $ = layui.jquery;
 
+    initFormData();
+
     form.on("submit(editOil)", function (data) {
         //弹出loading
         var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
@@ -42,7 +44,8 @@ layui.config({
     $("#reset").click(function () {
         initFormData();
     });
-    window.initFormData = function () {
+    // window.initFormData = function () {
+    function initFormData() {
         if (row != null && row !== undefined) {
             console.log(row);
             $("#oilId").val(row.oilId);
@@ -56,5 +59,5 @@ layui.config({
 
 function showFormData(data) {
     row = data;
-    initFormData();
+    // initFormData();
 }

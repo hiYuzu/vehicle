@@ -72,7 +72,8 @@ layui.config({
         initFormData();
     });
 
-    window.initFormData = function () {
+    // window.initFormData = function () {
+    function initFormData() {
         if (row != null && row != '') {
             $("#vtId").val(row.vtId);
             $("#vtCode").val(row.vtCode);
@@ -85,6 +86,6 @@ layui.config({
 
 function showFormData(data) {
     row = data;
-    initFormData();
+    // initFormData();
 }
 

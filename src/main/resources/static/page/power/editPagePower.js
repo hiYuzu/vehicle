@@ -12,6 +12,8 @@ layui.config({
         layer = parent.layer === undefined ? layui.layer : parent.layer,
         $ = layui.jquery;
 
+    initFormData();
+
     form.on("submit(editPagePower)", function (data) {
         var dataPara = data.field;
         var dataArray = [];
@@ -51,7 +53,8 @@ layui.config({
         initFormData();
     });
 
-    window.initFormData = function () {
+    // window.initFormData = function () {
+    function initFormData() {
         $.ajax({
             url: "../../PageController/getAllPage",
             type: "post",
@@ -119,5 +122,5 @@ layui.config({
 
 function showFormData(data) {
     row = data;
-    initFormData();
+    // initFormData();
 }
