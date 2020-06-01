@@ -6,11 +6,12 @@ layui.config({
         layer = parent.layer === undefined ? layui.layer : parent.layer,
         $ = layui.jquery;
 
+    initFormData();
     initAllData();
 
     function initAllData() {
-        //初始化组织数据
-        $.get("../../DeviceTypeController/getTypeIdAndTypeName",
+        // 初始化组织数据
+        $.get("../../VehicleTypeController/getTypeIdAndTypeName",
             function (data) {
                 addOption(data);
             }
