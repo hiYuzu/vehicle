@@ -134,7 +134,7 @@ layui.config({
     //加油
     $(".vehicleOil").click(function () {
         var index = layui.layer.open({
-            title: "添加车辆",
+            title: "车辆加油",
             type: 2,
             content: "vehicleOil.html",
             success: function (layero, index) {
@@ -152,7 +152,7 @@ layui.config({
     //维修
     $(".vehicleRepair").click(function () {
         var index = layui.layer.open({
-            title: "维修车辆",
+            title: "车辆维修",
             type: 2,
             content: "vehicleRepair.html",
             success: function (layero, index) {
