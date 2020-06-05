@@ -290,7 +290,7 @@ public class VehicleController {
         return vehicle;
     }
 
-    private VehicleModel convertVehicleModel(VehiclePojo vehicle) {
+    public VehicleModel convertVehicleModel(VehiclePojo vehicle) {
         VehicleModel vehicleModel = new VehicleModel();
         if (vehicle != null) {
             vehicleModel.setVehicleId(String.valueOf(vehicle.getVehicleId()));

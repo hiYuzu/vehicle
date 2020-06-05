@@ -224,7 +224,7 @@ public class OilController {
     }
 
 
-    private OilModel convertOilModel(OilPojo oil) {
+    public OilModel convertOilModel(OilPojo oil) {
         OilModel oilModel = new OilModel();
         if (oil != null) {
             oilModel.setOilId(String.valueOf(oil.getOilId()));

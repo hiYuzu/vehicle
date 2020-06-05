@@ -1,7 +1,9 @@
 package com.plr.vehicle.controller;
 
+import com.plr.vehicle.model.OilModel;
 import com.plr.vehicle.model.ResultModel;
 import com.plr.vehicle.model.UserModel;
+import com.plr.vehicle.model.VehicleModel;
 import com.plr.vehicle.pojo.OilPojo;
 import com.plr.vehicle.pojo.VehiclePojo;
 import com.plr.vehicle.service.IDriverService;
@@ -16,7 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,7 +47,27 @@ public class RecordController {
         resultMap.put("driver", driverService.listDriver(0, 0, null, 1));
         resultMap.put("oil", oilService.getAccessOil(new OilPojo(), null));
         resultMap.put("vehicle", vehicleService.getAccessVehicle(new VehiclePojo(), null));
-        return resultMap;
+        return longToString(resultMap);
+    }
+
+    private Map<String, Object> longToString(Map<String, Object> map) {
+        List<OilPojo> oilPojos = (List<OilPojo>) map.get("oil");
+        List<VehiclePojo> vehiclePojos = (List<VehiclePojo>) map.get("vehicle");
+        List<OilModel> oilModels = new ArrayList<>();
+        List<VehicleModel> vehicleModels = new ArrayList<>();
+        for (OilPojo oil : oilPojos) {
+            OilController oilController = new OilController();
+            oilModels.add(oilController.convertOilModel(oil));
+        }
+        for (VehiclePojo vehicle : vehiclePojos) {
+            VehicleController vehicleController = new VehicleController();
+            vehicleModels.add(vehicleController.convertVehicleModel(vehicle));
+        }
+        map.remove("oil");
+        map.remove("vehicle");
+        map.put("oil", oilModels);
+        map.put("vehicle", vehicleModels);
+        return map;
     }
 
     @RequestMapping("/insertRentRecord")
